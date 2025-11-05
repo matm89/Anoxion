@@ -1,0 +1,8 @@
+[
+  {
+    "user": "Miguel",
+    "email": "test@email.com",
+    "password": "hashed_password",
+    "devices":["esp32_A","esp32_B"]
+  }
+]

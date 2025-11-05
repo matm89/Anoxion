@@ -1,0 +1,26 @@
+[
+  {
+    "device": "esp32_A",
+    "state": {
+      "e-stop": false,
+      "connected": false,
+      "last_check": "" 
+    }
+  },
+  {
+    "device": "esp32_B",
+    "state": {
+      "e-stop": false,
+      "connected": false,
+      "last_check": "" 
+    }
+  },
+  {
+    "device": "esp32_C",
+    "state": {
+      "e-stop": false,
+      "connected": false,
+      "last_check": "" 
+    }
+  }
+]
