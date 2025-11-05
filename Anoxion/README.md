@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# 🧬 Anoxion – Your Anoxia Companion (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Anoxion** is the web application companion for the anoxia system.  
+It allows users to **view and manage their linked devices**, monitor **connection status**, and track **active processes** in real time, as well as **past processes** with their final results.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- ⚡ **Vite** – blazing-fast development environment.
+- ⚛️ **React 18** – modular and dynamic UI.
+- 🧠 **TypeScript** – static typing for reliability and scalability.
+- 🎨 **Tailwind CSS** (optional) – fast, responsive styling.
+- 🌐 **Axios / Fetch API** – backend communication.
+- 🔗 **React Router DOM** – navigation and routing.
+- 🔒 **JWT Auth** (planned) – token-based authentication.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+-this is a basic structure to be defined in the final version
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```markdown
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+anoxion/
+├── public/
+│ ├── favicon.ico
+│ └── manifest.json
+├── src/
+│ ├── assets/ # Static resources (icons, logos, etc.)
+│ ├── components/ # Reusable UI components (Cards, Charts, etc.)
+│ ├── hooks/ # Custom hooks (useAuth, useFetch, etc.)
+│ ├── pages/ # Main pages (Login, Dashboard, Devices, Process)
+│ ├── services/ # API calls and backend communication
+│ ├── context/ # Global contexts (AuthContext, DeviceContext)
+│ ├── types/ # TypeScript types and interfaces
+│ ├── utils/ # Helper functions
+│ ├── App.tsx # App entry point
+│ ├── main.tsx # ReactDOM render
+│ └── vite-env.d.ts
+├── .env # Environment variables (API_URL, etc.)
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Installation & Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1️⃣ Clone the repository
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+
+git clone https://github.com/matm89/Anoxion.git
+cd anoxion
+
 ```
+## 2️⃣ Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+
+```
+## 3️⃣ Run in development mode
+```bash
+npm run dev
+```
+
+---
+_README generated with ❤️ by [ChatGPT (GPT-5)](https://openai.com/chatgpt)_
