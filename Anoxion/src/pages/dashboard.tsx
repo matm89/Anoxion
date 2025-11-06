@@ -1,10 +1,15 @@
 import { useNavigate } from "react-router";
 import Dock from "../components/navbar/navbar";
 import {VscArchive, VscAccount} from 'react-icons/vsc';
+import { useState } from "react";
 
 export function Dashboard () {
 
   const navigate = useNavigate();
+
+  useState (()=> {
+
+  });
 
   const items = [
     { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => navigate('/processes') },

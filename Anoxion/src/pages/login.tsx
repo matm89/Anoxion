@@ -13,7 +13,7 @@ export function Login () {
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
     const {name, value} = e.target;
-    console.log(e.target);
+    // console.log(e.target);
     setForm((prev) => ({...prev, [name]: value}));
   }
 
@@ -26,13 +26,12 @@ export function Login () {
         email: form.email,
         password: form.password
       };
-      console.log(user);
+
+      if (!user) throw new Error('Need email & password');
 
       const userAuth = await authentificate(user);
 
-      console.log(userAuth);
-
-      if (!userAuth) throw new Error('Invalid user');
+      if (!userAuth) throw Error;
       else navigate("/");
     } catch (error) {
       toast.error((error as Error).message,{

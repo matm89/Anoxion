@@ -14,7 +14,7 @@ export function Profile () {
 
   function logout () {
 
-    desauthentificate();
+    desauthentificate(navigate);
 
   };
 
