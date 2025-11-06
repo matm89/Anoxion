@@ -18,8 +18,8 @@ const validateDevice = [
   })
 ];
 
-// For GET requests, validate email in query; for POST, in body
-const validateUser = [
+
+const validateMail = [
   (req, res, next) => {
     if (req.method === 'GET') {
       return query('email').isEmail().normalizeEmail()(req, res, next);
@@ -30,6 +30,24 @@ const validateUser = [
   body('name').optional().trim().isLength({ min:2}).escape(),
 ];
 
+const validateUser = [
+  (req, res, next) => {
+    if (req.method === 'GET') {
+      return query('user').trim()
+        .notEmpty()
+        .isString()
+        .isLength({ min: 2 })
+        .withMessage('Username is required and must be at least 2 characters long')(req, res, next);
+    } else {
+      return body('user').trim()
+        .notEmpty()
+        .isString()
+        .isLength({ min: 2 })
+        .withMessage('Username is required and must be at least 2 characters long')(req, res, next);
+    }
+  },
+  body('name').optional().trim().isLength({ min: 2 }).escape(),
+];
 
 const validateProcess = [
   body('process_id').trim().notEmpty().withMessage('process_id is required').isString().escape(),
@@ -63,4 +81,4 @@ const validateProcess = [
   body('iostate.e-stop').optional().isBoolean().withMessage('iostate.e-stop must be boolean')
 ];
 
-module.exports = {validateDevice, validateUser, validateProcess}
+module.exports = {validateDevice, validateUser, validateMail, validateProcess}

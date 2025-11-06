@@ -6,10 +6,10 @@ try {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array()});
 
-  const {user} = req.body;
+  const {user} = req.query;
   console.log(user);
   const process = await Process.find({user:user});
-  console.log(process);
+  // console.log(process);
   res.status(200).send(process);
 
 } catch (error) {

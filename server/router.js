@@ -1,6 +1,6 @@
 const { getDevices, postDevice } = require('./controllers/devices');
 const getProcess = require('./controllers/process');
-const { validateUser, validateDevice } = require('./model/validators');
+const { validateUser, validateDevice, validateMail } = require('./model/validators');
 
 const router = require('express').Router();
 
@@ -11,11 +11,11 @@ router.get('/', (req, res) => {
 })
 
 // Routing to devices db
-router.get('/devices', validateUser, getDevices); //this get the email and return the devices asociated
+router.get('/devices', validateMail, getDevices); //this get the email and return the devices asociated
 router.post('/devices', validateDevice, postDevice); //this can include a new device to de db
 
 // Routing to the process
-router.get('/process', getProcess);
+router.get('/process', validateUser, getProcess);
 
 
 //!Routing to users (to implement in future versions)

@@ -8,17 +8,21 @@ import { toast } from "react-toastify";
 import { Devices } from "../components/devices/devices";
 import type { Device } from "../types/device";
 import gsap from "gsap";
+import { getProcesses } from "../services/processes";
 
 export function Dashboard() {
   const email = authStore.getState().email;
   const navigate = useNavigate();
+
   const [devices, setDevices] = useState<Device[]>([
     { device: "example", state: { "e-stop": false, state: "running", last_check: "" } },
   ]);
 
+  const [processes , setProcesses] = useState([]);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Data fetch simulation
+  //get data with email
   useEffect(() => {
     if (!email) return;
     try {
@@ -37,13 +41,33 @@ export function Dashboard() {
     }
   }, [email]);
 
+  //get process from service
+  useEffect(() => {
+    if(!email) return;
+    try {
+      const getData = async () => {
+        const data = await getProcesses();
+        // console.log(data);
+        setProcesses(data);
+      };
+      getData().catch((error) => {
+        throw new Error(error);
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("🚨 occurs getting process", {
+        icon: () => <img src="/icon.png" width={20} />,
+      });
+    }
+  },[email])
+
   // Start mock updater
   useEffect(() => {
     const stopMock = mockDeviceConnections(devices, setDevices, 30_000); // 30s for testing
     return stopMock;
   }, []);
 
-  // --- 🔮 GSAP Magic Bento Style Animations ---
+  
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Background gradient animation
@@ -93,14 +117,12 @@ export function Dashboard() {
       ref={containerRef}
       className="min-h-screen w-full flex flex-col items-center justify-start p-6 bg-gradient-to-br from-brand-100 to-brand-300 transition-all"
     >
-      {/* Header */}
-      <div className="flex flex-col items-center mb-6">
+      <div id="header container" className="flex flex-col items-center mb-6">
         <img src="/logo.png" alt="logo" className="w-[30vw] h-[30vh] mb-1 drop-shadow-lg" />
         <h1 className="text-3xl font-bold text-brand-700">Dashboard</h1>
       </div>
 
-      {/* Devices grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
         {devices.map((d, i) => (
           <div
             key={i}
@@ -122,8 +144,8 @@ export function Dashboard() {
         ))}
       </div> */}
 
-      {/* Dock */}
-      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-center gap-8 mb-4 p-2">
+      
+      <div id="DockContainer" className="fixed bottom-0 left-0 right-0 flex items-center justify-center gap-8 mb-4 p-2">
         <Dock items={items} panelHeight={68} baseItemSize={50} magnification={50} />
       </div>
     </div>
