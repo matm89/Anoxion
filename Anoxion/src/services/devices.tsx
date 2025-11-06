@@ -8,7 +8,7 @@ export async function getDevices (email:string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
-      }
+      },
     });
     const devices = await response.json();
     return devices;

@@ -20,16 +20,15 @@ export function Devices({ devices }: DevicesProps) {
     <div className="flex flex-col gap-3 w-full p-4">
       {devices.map((device) => {
         const offline = isOffline(device.state.last_check);
-
         return (
           <div
             key={device.device}
-            className={`flex items-center justify-between p-4 rounded-xl shadow-md border 
-              transition-colors duration-300 
+            className={`flex items-center justify-between p-4 rounded-xl shadow-md 
+              transition-colors duration-300 border
               ${
                 offline
-                  ? "bg-red-50 border-red-400"
-                  : "bg-blue-50 border-blue-300"
+                  ? "bg-red-100 border-red-400"
+                  : "bg-green-50 border-green-300"
               }`}
           >
             {/* Name */}

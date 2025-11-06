@@ -11,11 +11,13 @@ export async function authentificate (user:LoginRequestBody) {
   
   const { email , password } = user;
 
+
   // console.log(user);
   if(email == 'test@email.com' && password == 'password') {
     Toast({title: 'Login success ✅'});
     authStore.getState().login();
     authStore.getState().setEmail(email);
+    return true;
   } else {
     Toast({ title: "Invalid credentials ❌" });
     return false;
