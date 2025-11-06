@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 
 
 //Validators schemas
@@ -18,10 +18,16 @@ const validateDevice = [
   })
 ];
 
+// For GET requests, validate email in query; for POST, in body
 const validateUser = [
+  (req, res, next) => {
+    if (req.method === 'GET') {
+      return query('email').isEmail().normalizeEmail()(req, res, next);
+    } else {
+      return body('email').isEmail().normalizeEmail()(req, res, next);
+    }
+  },
   body('name').optional().trim().isLength({ min:2}).escape(),
-
-  body('email').isEmail().normalizeEmail(),
 ];
 
 

@@ -9,7 +9,8 @@ try {
   if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array()});
 
   //first we get the devices that each user have 
-  const { email } = req.body;
+  const { email } = req.query;
+  console.log(email);
   const user = await User.findOne({email: email});
 
   //then we get info of each device and make an array of them.

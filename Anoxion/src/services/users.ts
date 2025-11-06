@@ -15,7 +15,7 @@ export async function authentificate (user:LoginRequestBody) {
   if(email == 'test@email.com' && password == 'password') {
     Toast({title: 'Login success ✅'});
     authStore.getState().login();
-    return email;
+    authStore.getState().setEmail(email);
   } else {
     Toast({ title: "Invalid credentials ❌" });
     return false;
