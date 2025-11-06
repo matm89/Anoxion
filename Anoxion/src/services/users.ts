@@ -1,7 +1,6 @@
 import Toast from "../components/toast";
 import { authStore } from "../context/auth";
 
-const {login,  logout} = authStore()
 
 export interface LoginRequestBody {
   email: string;
@@ -9,13 +8,13 @@ export interface LoginRequestBody {
 }
 
 export async function authentificate (user:LoginRequestBody) {
-
+  
   const { email , password } = user;
 
   console.log(user);
   if(email == 'test@email.com' && password == 'password') {
     Toast({title: 'Login success ✅'});
-    login();
+    authStore.getState().login();
     return email;
   } else {
     Toast({ title: "Invalid credentials ❌" });
@@ -24,6 +23,7 @@ export async function authentificate (user:LoginRequestBody) {
 }
 
 export function desauthentificate () {
+  const {logout} = authStore();
 
   return logout();
 

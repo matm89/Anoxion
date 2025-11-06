@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router";
+
 import { authentificate, type LoginRequestBody } from "../services/users";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 
@@ -29,8 +30,9 @@ export function Login () {
 
       const userAuth = await authentificate(user);
 
-      if (!userAuth) throw new Error('Invalid user');
+      console.log(userAuth);
 
+      if (!userAuth) throw new Error('Invalid user');
       else navigate("/");
     } catch (error) {
       toast.error((error as Error).message,{
