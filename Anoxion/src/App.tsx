@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { authStore } from './context/auth';
 import { Dashboard } from './pages/dashboard';
-import { Login } from './pages/Login';
+import { Login } from './pages/login';
 import { Bounce, ToastContainer } from 'react-toastify';
 
 
@@ -18,6 +18,7 @@ function App() {
           <Route path="/" element={auth? <Dashboard/> : <Login/>}/>
         </Routes>
       </BrowserRouter>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
