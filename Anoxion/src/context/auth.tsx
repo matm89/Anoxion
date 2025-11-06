@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface auth {
   auth: boolean,
@@ -6,8 +7,15 @@ interface auth {
   logout: () => void
 }
 
-export const authStore = create<auth> ((set) => ({
-  auth:false,
-  login: () => set(() => ({ auth: true})),
-  logout: () => set(() => ({ auth: false}))
-}));
+export const authStore = create<auth>() (
+  persist (
+    (set) => ({
+      auth:false,
+      login: () => set(() => ({ auth: true})),
+      logout: () => set(() => ({ auth: false}))
+    }),
+    {
+      name: 'auth-store'
+    }
+  )
+);
