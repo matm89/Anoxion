@@ -4,6 +4,9 @@ import { authStore } from './context/auth';
 import { Dashboard } from './pages/dashboard';
 import { Login } from './pages/login';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { ProtectedRoute } from './routes/protected';
+import { Profile } from './pages/profile';
+import { Processes } from './pages/process';
 
 
 function App() { 
@@ -15,7 +18,14 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={auth? <Dashboard/> : <Login/>}/>
+          <Route path="/login" element={<Login/>}/>
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Dashboard />}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path="/processes" element={<Processes />}/>
+          </Route>
+
         </Routes>
       </BrowserRouter>
 

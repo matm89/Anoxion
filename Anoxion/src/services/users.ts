@@ -23,8 +23,10 @@ export async function authentificate (user:LoginRequestBody) {
 }
 
 export function desauthentificate () {
-  const {logout} = authStore();
+  
+  authStore.getState().logout();
 
-  return logout();
-
+  Toast({title: 'Loged out ❎'});
+  
+  return;
 }

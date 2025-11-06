@@ -1,5 +1,12 @@
 'use client';
 
+
+/* all paths 
+{ icon: <VscHome size={18} />, label: 'Home', onClick: () => navigate('/') },
+{ icon: <VscArchive size={18} />, label: 'Archive', onClick: () => navigate('/processes') },
+{ icon: <VscAccount size={18} />, label: 'Profile', onClick: () => navigate('/user') },
+*/
+
 import {
   motion,
   MotionValue,

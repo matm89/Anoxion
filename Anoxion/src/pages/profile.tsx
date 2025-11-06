@@ -1,15 +1,22 @@
 import { useNavigate } from "react-router";
 import Dock from "../components/navbar/navbar";
-import {VscAccount, VscHome} from 'react-icons/vsc';
+import {VscArchive, VscHome} from 'react-icons/vsc';
+import { desauthentificate } from "../services/users";
 
-export function Processes () {
+export function Profile () {
 
   const navigate = useNavigate();
 
   const items = [
     { icon: <VscHome size={18} />, label: 'Home', onClick: () => navigate('/') },
-    { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => navigate('/profile') },
+    { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => navigate('/processes') },
   ];
+
+  function logout () {
+
+    desauthentificate();
+
+  };
 
   return (
     <>
@@ -19,7 +26,8 @@ export function Processes () {
         baseItemSize={50}
         magnification={70}
       />
-      <p>hello processes</p>
+      <p>hello profile</p>
+      <button onClick={logout}>Log Out</button>
     </>
   );
 }
