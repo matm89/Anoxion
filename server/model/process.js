@@ -21,6 +21,6 @@ const processSchema = new mongoose.Schema ({
   }
 });
 
-const Process = mongoose.model('Process', processSchema);
+const Process = mongoose.model('Processes', processSchema);
 
 module.exports = Process;
