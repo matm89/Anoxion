@@ -1,7 +1,9 @@
-import { create, type ExtractState } from 'zustand';
+import { create } from 'zustand';
 
 interface auth {
   auth: boolean,
+  login: () => void,
+  logout: () => void
 }
 
 export const authStore = create<auth> ((set) => ({

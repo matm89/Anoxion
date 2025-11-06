@@ -1,17 +1,24 @@
-import { authStore, type authState } from "../context/auth";
+import { authStore } from "../context/auth";
+import Toast from "../components/toast/index";
 
 
 export function Login () {
 
-  const auth: authState = authStore.getState();
+  const auth = authStore((state) => state.auth);
 
-  function authentificate (){
-    if (!auth) throw new Error('Invalid user');
+  function authentificate () {
+
+    try {
+      if (!auth) throw new Error('Invalid user');
+      
+    } catch (error) {
+      Toast({title: (error as Error).message});
+    }
   }
 
-  console.log(auth);
+  // console.log(auth);
   return (
-    <>
+    <div className="grid place-items-center h-dvh">
       <p>hello from Login</p>
       <form action={authentificate}>
         <label>E-Mail:</label>
@@ -20,6 +27,7 @@ export function Login () {
         <input type="text" name="password"/>
         <button type="submit"> Login </button>
       </form>
-    </>
+    </div>
   );
+
 }
