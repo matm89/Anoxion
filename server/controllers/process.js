@@ -6,11 +6,18 @@ try {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array()});
 
-  const {user} = req.query;
+  const { user } = req.query;
   console.log(user);
-  const process = await Process.find({user:user});
-  // console.log(process);
-  res.status(200).send(process);
+
+  const processes = await Process.aggregate([
+    { $match: { user: user } },
+    { $group: { _id: "$process_id", items: { $push: "$$ROOT" } } },
+    { $sort: { _id: 1 } },
+    { $group: { _id: null, ids: { $push: "$_id" }, groups: { $push: "$items" } } },
+    { $project: { _id: 0, result: ["$ids", "$groups"] } }
+  ]);
+
+  res.status(200).send(processes[0].result);
 
 } catch (error) {
   console.log(error);
