@@ -7,7 +7,6 @@ try {
   if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array()});
 
   const { user } = req.query;
-  console.log(user);
 
   const processes = await Process.aggregate([
     { $match: { user: user } },

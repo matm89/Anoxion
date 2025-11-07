@@ -18,35 +18,9 @@ import {
 } from 'motion/react';
 
 import React, { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
+import type { DockIconProps, DockItemProps, DockLabelProps, DockProps } from '../../types/docktypes';
 
-export type DockItemData = {
-  icon: React.ReactNode;
-  label: React.ReactNode;
-  onClick: () => void;
-  className?: string;
-};
 
-export type DockProps = {
-  items: DockItemData[];
-  className?: string;
-  distance?: number;
-  panelHeight?: number;
-  baseItemSize?: number;
-  dockHeight?: number;
-  magnification?: number;
-  spring?: SpringOptions;
-};
-
-type DockItemProps = {
-  className?: string;
-  children: React.ReactNode;
-  onClick?: () => void;
-  mouseX: MotionValue<number>;
-  spring: SpringOptions;
-  distance: number;
-  baseItemSize: number;
-  magnification: number;
-};
 
 function DockItem({
   children,
@@ -98,12 +72,6 @@ function DockItem({
   );
 }
 
-type DockLabelProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: MotionValue<number>;
-};
-
 function DockLabel({ children, className = '', isHovered }: DockLabelProps) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -134,11 +102,6 @@ function DockLabel({ children, className = '', isHovered }: DockLabelProps) {
   );
 }
 
-type DockIconProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: MotionValue<number>;
-};
 
 function DockIcon({ children, className = '' }: DockIconProps) {
   return <div className={`flex items-center  ${className}`}>{children}</div>;

@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import "./styles";
-// import logo from "../../assets/logo.png";
 
 export type ToastProps = {
   title: string;
