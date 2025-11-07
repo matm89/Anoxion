@@ -139,7 +139,7 @@ export function Dashboard() {
       </div>
       {/* process grid*/}
       <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
-      <div id="process Container" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl m-2">
+      <div id="process Container" className="grid grid-cols-1 gap-6 w-full max-w-5xl m-2">
 
         {processes && <ProcessList processList={processesList} processes={processes}/>} 
       </div>

@@ -16,39 +16,48 @@ export function ProcessList({ processList, processes }: ProcessProps) {
   }
 
   return (
-    <div className="flex flex-col w-[100%]">
-      <div className="flex flex-row gap-3 w-[100%]  border-4 place-items-center">
-      {processList &&
-        processList.map((proc) => (
-          <div
-            key={String(proc)}
-            className=" device-card w-[10vw] place-items-center bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
-          >
-            {/* Name */}
-            <div className="flex flex-col">
-              <span className="text-lg font-semibold text-blue-900">{proc}</span>
-            </div>
-            {/* Details button*/}
-            <button
-              onClick={() => handleDetails(proc)}
-              className="relative p-1 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+    <div className="flex flex-col w-full items-center">
+      {/* items rows */}
+      <div
+        id="processNames"
+        className="flex flex-row flex-wrap justify-center items-center gap-4 w-full py-4 border-gray-200 rounded-xl "
+      >
+        {processList &&
+          processList.map((proc) => (
+            <div
+              key={String(proc)}
+              className="device-card flex flex-col items-center justify-between w-[10vw] min-w-[140px] bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
             >
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                Details
+              {/* Name */}
+              <span className="text-lg font-semibold text-blue-900">
+                {proc}
               </span>
-            </button>
-        </div>
-        ))
-        }
+  
+              {/* Details button */}
+              <button
+                onClick={() => handleDetails(proc)}
+                className="mt-3 relative px-4 py-2 text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:from-green-500 hover:to-blue-700 text-white transition-all duration-150 focus:ring-2 focus:ring-green-300"
+              >
+                <span className="relative">Details</span>
+              </button>
+            </div>
+          ))}
       </div>
-
-      <div>
-
-      {/* Render details for the selected process */}
-      {selectedProcess !== null && (
-        <ProcessDetails processes={processes.flat().filter((p) => p.process_id == selectedProcess)} />
-      )}
-
+  
+      {/* === PROCESS DETAILS ROW === */}
+      <div
+        id="processDetails"
+        className="w-full mt-6 px-4 flex justify-center"
+      >
+        {selectedProcess !== null && (
+          <div className="w-full max-w-6xl">
+            <ProcessDetails
+              processes={processes.flat().filter(
+                (p) => p.process_id == selectedProcess
+              )}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
