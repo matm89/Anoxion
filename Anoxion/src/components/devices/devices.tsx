@@ -23,7 +23,7 @@ export function Devices({ devices }: DevicesProps) {
         return (
           <div
             key={device.device}
-            className={`flex items-center justify-between p-4 rounded-xl shadow-md 
+            className={`flex items-center justify-between p-4 border-4 rounded-xl shadow-md 
               transition-colors duration-300 border
               ${
                 offline

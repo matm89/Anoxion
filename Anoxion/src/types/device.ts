@@ -1,8 +1,8 @@
 export interface Device {
-  device: string;
+  device: string,
   state: {
-    "e-stop": boolean;
-    state: "running" | "stopped" | string;
-    last_check: string; 
+    "e-stop": boolean,
+    state: "running" | "stopped" | string,
+    last_check: string
   };
 }

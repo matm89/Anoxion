@@ -9,6 +9,8 @@ import { Devices } from "../components/devices/devices";
 import type { Device } from "../types/device";
 import gsap from "gsap";
 import { getProcesses } from "../services/processes";
+import { ProcessList } from "../components/processlist/processlist";
+import type { Process } from "../types/process";
 
 export function Dashboard() {
   const email = authStore.getState().email;
@@ -18,17 +20,19 @@ export function Dashboard() {
     { device: "example", state: { "e-stop": false, state: "running", last_check: "" } },
   ]);
 
-  const [processes , setProcesses] = useState([]);
+  const [processes , setProcesses] = useState<Process[]>();
+  const [processesList , setProcressList] = useState([]);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   //get data with email
   useEffect(() => {
-    if (!email) return;
+    if (!email) return; 
     try {
       const getData = async () => {
         const data = await getDevices(email);
         setDevices(data);
+        // console.log(data);
       };
       getData().catch((error) => {
         throw new Error(error);
@@ -48,7 +52,8 @@ export function Dashboard() {
       const getData = async () => {
         const data = await getProcesses();
         // console.log(data);
-        setProcesses(data);
+        setProcressList(data[0]);
+        setProcesses(data[1]);
       };
       getData().catch((error) => {
         throw new Error(error);
@@ -132,18 +137,25 @@ export function Dashboard() {
           </div>
         ))}
       </div>
-      {/* status grid */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
-        {devices.map((device, i) => (
-          <div
-            key={i}
-            className="device-card bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
-          >
-            <Devices devices={[d]} />
-          </div>
-        ))}
-      </div> */}
+      {/* process grid*/}
+      <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
+      <div id="process Container" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl m-2">
 
+        {processes && <ProcessList processList={processesList} processes={processes}/>} 
+      </div>
+      {/* status grid in case that we have a running process*/}
+        {
+          // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+          //   {devices.map((device, i) => (
+          //     <div
+          //       key={i}
+          //       className="device-card bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
+          //     >
+          //       <Devices devices={[d]} />
+          //     </div>
+          //   ))}
+          // </div>
+        }
       
       <div id="DockContainer" className="fixed bottom-0 left-0 right-0 flex items-center justify-center gap-8 mb-4 p-2">
         <Dock items={items} panelHeight={68} baseItemSize={50} magnification={50} />
