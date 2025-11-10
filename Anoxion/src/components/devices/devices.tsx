@@ -1,14 +1,14 @@
 import { useState } from "react";
 import type { Device, DeviceMock, DevicesProps } from "../../types/device";
-import { toggleMock } from "../../services/devices";
+import { toggleMock, toggleProcess } from "../../services/mock";
 
 
-export function Devices({ devices, setDevices }: DevicesProps & { setDevices?: (d: Device[]) => void }) {
+export function Devices({ devices, }: DevicesProps) {
   
   const [state, setState] = useState(false);
- 
+  const [statusProcess, setStatusProcess] = useState(false);
   
-  // mock function for demo
+  // mocks functions for demo
   async function startMock(device: Device) {
     try {
       const mock: DeviceMock = {
@@ -24,9 +24,25 @@ export function Devices({ devices, setDevices }: DevicesProps & { setDevices?: (
       }
       
     } catch (error) {
-      console.log('error during start Mock:',error);
+      console.log('error during start Device_Mock:',error);
     }
   };
+
+  async function startProcess (device: Device) {
+    try {
+      if(!statusProcess){
+        setStatusProcess(true);
+        device.state.status = "running";
+        await toggleProcess(device);
+      } else {
+        setStatusProcess(false);
+        device.state.status = "stopped";
+        await toggleProcess(device);
+      }
+    } catch (error) {
+      console.log('error during start Process_Mock:',error);
+    }
+  }
 
   const now = new Date();
   //check if it was online the last minute
@@ -70,18 +86,24 @@ export function Devices({ devices, setDevices }: DevicesProps & { setDevices?: (
 
             {/* Status */}
             <div
+              onClick={() => startProcess(device)}
               className={`text-sm font-medium px-3 py-1 rounded-full 
               ${
-                device.state.state === "running"
+                device.state.status === "running"
                   ? "bg-green-100 text-green-700"
-                  : device.state.state === "stopped"
+                  : device.state.status === "stopped"
                   ? "bg-yellow-100 text-yellow-700"
                   : "bg-gray-100 text-gray-700"
               }`}
             >
-              {device.state.state}
+              {device.state.status}
             </div>
 
+            {/* E-Stop */}
+            {device.state.status === "running"
+              ?<button className="rounded-full bg-color:red " >E-Stop</button>
+              : null
+            }
             {/* last Connection */}
             <div className="text-xs text-gray-500 text-right">
               {device.state.last_check

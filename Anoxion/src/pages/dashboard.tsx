@@ -19,7 +19,7 @@ export function Dashboard() {
   const navigate = useNavigate();
 
   const [devices, setDevices] = useState<Device[]>([
-    { device: "example", state: { "e-stop": false, state: "running", last_check: new Date } },
+    { device: "example", state: { "e-stop": false, status: "stoped", last_check: new Date } },
   ]);
 
   const [processes , setProcesses] = useState<Process[]>();
@@ -32,7 +32,6 @@ export function Dashboard() {
     if (!email) return; 
     try {
       function timeInterval() {
-        console.log('interval');
         const getData = async () => {
           const data = await getDevices(email);
           setDevices(data);

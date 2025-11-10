@@ -13,7 +13,6 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  type SpringOptions,
   AnimatePresence
 } from 'motion/react';
 
@@ -122,7 +121,7 @@ export default function Dock({
 
   const maxHeight = useMemo(
     () => Math.max(dockHeight, magnification + magnification / 2 + 4),
-    [magnification]
+    [dockHeight, magnification]
   );
   const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);

@@ -20,6 +20,8 @@ router.get('/process', validateUser, getProcess);
 
 // Routing to mocks
 router.post('/mock',toggleMock);
+// router.post('/mock/process')
+
 //!Routing to users (to implement in future versions)
 
 module.exports = router;

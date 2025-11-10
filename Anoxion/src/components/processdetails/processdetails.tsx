@@ -27,18 +27,18 @@ ChartJS.register(
 );
 
 export function ProcessDetails({ processes }: { processes: Process[] }) {
-  if (!processes || processes.length === 0) {
-    return <div>No process data available</div>;
-  }
-
+  
   // Format timestamps for x-axis
   const formatedDate = processes.map((p) => format(p.timestamp, "do',' HH':'mm"));
   const oData = processes.map((p) => p.values.O2);
   const hData = processes.map((p) => p.values.hum);
-
-  const o2ChartRef = useRef<any>(null);
-  const humChartRef = useRef<any>(null);
-
+  
+  const o2ChartRef = useRef(null);
+  const humChartRef = useRef(null);
+  
+  if (!processes || processes.length === 0) {
+    return <div>No process data available</div>;
+  }
   // Common chart options
   const baseOptions = {
     responsive: true,
@@ -97,7 +97,11 @@ export function ProcessDetails({ processes }: { processes: Process[] }) {
   };
 
   // Zoom control handlers
-  const resetZoom = (chartRef: any) => {
+  interface ChartRef {
+    current: InstanceType<typeof ChartJS> | null;
+  }
+
+  const resetZoom = (chartRef: ChartRef): void => {
     chartRef.current?.resetZoom();
   };
 

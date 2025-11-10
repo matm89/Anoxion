@@ -44,6 +44,12 @@ async function toggleMock(req, res) {
         );
       } else if (status == false) {
         task.stop();
+        await Device.updateOne(
+          { device },
+          { $set: { 
+            "state.status": "stopped",
+           } }
+        );
       }
     }
 

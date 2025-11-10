@@ -2,7 +2,7 @@ export interface Device {
   device: string,
   state: {
     "e-stop": boolean,
-    state: "running" | "stopped" | string,
+    status: "running" | "stopped" | string,
     last_check: Date
   };
 }
