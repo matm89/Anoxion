@@ -6,7 +6,7 @@ const devicesSchema = new mongoose.Schema ({
   state:{
     "e-stop": {type:Boolean, default:false},
     "status": {type: String,  default:false},
-    "last_check": BigInt,
+    "last_check": Date,
   }
 });
 

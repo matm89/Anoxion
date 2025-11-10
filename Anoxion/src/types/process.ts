@@ -18,3 +18,8 @@ export interface Process {
     "e-stop": boolean
   },
 };
+
+export interface ProcessProps {
+  processList: Array<string | number>;
+  processes: Process[];
+}

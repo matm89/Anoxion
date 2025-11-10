@@ -1,4 +1,5 @@
 const { getDevices, postDevice } = require('./controllers/devices');
+const toggleMock = require('./controllers/mock');
 const getProcess = require('./controllers/process');
 const { validateUser, validateDevice, validateMail } = require('./model/validators');
 
@@ -11,13 +12,14 @@ router.get('/', (req, res) => {
 })
 
 // Routing to devices db
-router.get('/devices', validateMail, getDevices); //this get the email and return the devices asociated
-router.post('/devices', validateDevice, postDevice); //this can include a new device to de db
+router.get('/devices', validateMail, getDevices);
+router.post('/devices', validateDevice, postDevice);
 
 // Routing to the process
 router.get('/process', validateUser, getProcess);
 
-
+// Routing to mocks
+router.post('/mock',toggleMock);
 //!Routing to users (to implement in future versions)
 
 module.exports = router;

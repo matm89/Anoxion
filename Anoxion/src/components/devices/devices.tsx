@@ -1,31 +1,40 @@
-import { useMockDeviceConnections } from "../../hooks/mockFunctions/mocks";
-import type { Device } from "../../types/device";
+import { useState } from "react";
+import type { Device, DeviceMock, DevicesProps } from "../../types/device";
+import { toggleMock } from "../../services/devices";
 
 
-interface DevicesProps {
-  devices: Device[];
-}
-
-
-
-export function Devices({ devices }: DevicesProps) {
+export function Devices({ devices, setDevices }: DevicesProps & { setDevices?: (d: Device[]) => void }) {
   
-  const mocksStatus = useMockDeviceConnections();
+  const [state, setState] = useState(false);
+ 
   
   // mock function for demo
-  function startMock(device: Device) {
-    mocksStatus.setDevice(device);
-    mocksStatus.toggleConnection();
-    console.log(mocksStatus);
+  async function startMock(device: Device) {
+    try {
+      const mock: DeviceMock = {
+        device:device.device,
+        state:state
+      }
+      if (!state) {
+        setState(true);
+        await toggleMock(mock);
+      } else {
+        setState(false);
+        await toggleMock(mock);
+      }
+      
+    } catch (error) {
+      console.log('error during start Mock:',error);
+    }
   };
 
   const now = new Date();
-  
-  const isOffline = (last_check: string): boolean => {
+  //check if it was online the last minute
+  const isOffline = (last_check: Date): boolean => {
     if (!last_check) return true;
     const diff = now.getTime() - new Date(last_check).getTime();
     const minutes = diff / 1000 / 60;
-    return minutes > 10;
+    return minutes > 1;
   };
 
   return (

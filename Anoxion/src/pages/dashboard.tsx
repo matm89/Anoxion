@@ -19,7 +19,7 @@ export function Dashboard() {
   const navigate = useNavigate();
 
   const [devices, setDevices] = useState<Device[]>([
-    { device: "example", state: { "e-stop": false, state: "running", last_check: "" } },
+    { device: "example", state: { "e-stop": false, state: "running", last_check: new Date } },
   ]);
 
   const [processes , setProcesses] = useState<Process[]>();
@@ -31,14 +31,19 @@ export function Dashboard() {
   useEffect(() => {
     if (!email) return; 
     try {
-      const getData = async () => {
-        const data = await getDevices(email);
-        setDevices(data);
-        // console.log(data);
+      function timeInterval() {
+        console.log('interval');
+        const getData = async () => {
+          const data = await getDevices(email);
+          setDevices(data);
+          // console.log(data);
+        };
+        getData().catch((error) => {
+          throw new Error(error);
+        });
       };
-      getData().catch((error) => {
-        throw new Error(error);
-      });
+      timeInterval();
+      setInterval(timeInterval, 10000);
     } catch (error) {
       console.log(error);
       toast.error("🚨 occurs getting data", {
@@ -79,19 +84,8 @@ export function Dashboard() {
         ease: "power1.inOut",
       });
 
-      // Device card entrance animation
-      gsap.from(".device-card", {
-        opacity: 0,
-        scale: 0.8,
-        y: 30,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        stagger: 0.1,
-        delay: 0.3,
-      });
-
       // Hover effect for device cards
-      gsap.utils.toArray(".device-card").forEach((el:any) => {
+      gsap.utils.toArray<HTMLElement>(".device-card").forEach((el: HTMLElement) => {
         const hover = gsap.to(el, {
           scale: 1.05,
           duration: 0.3,
@@ -119,7 +113,7 @@ export function Dashboard() {
     >
       <div id="header container" className="flex flex-col items-center mb-6">
         <img src="/logo.png" alt="logo" className="w-[30vw] h-[30vh] mb-1 drop-shadow-lg" />
-        <h1 className="text-3xl font-bold text-brand-700">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-brand-700">Devices</h1>
       </div>
 
       <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl">
@@ -128,7 +122,7 @@ export function Dashboard() {
             key={i}
             className="device-card bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
           >
-            <Devices devices={[d]} />
+            <Devices devices={[d]} setDevices={setDevices} />
           </div>
         ))}
       </div>

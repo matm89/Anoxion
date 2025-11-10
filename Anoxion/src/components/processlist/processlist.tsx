@@ -1,11 +1,7 @@
 import { useState } from "react";
-import type { Process } from "../../types/process";
+import type { ProcessProps } from "../../types/process";
 import { ProcessDetails } from "../processdetails/processdetails";
 
-interface ProcessProps {
-  processList: Array<string | number>;
-  processes: Process[];
-}
 
 
 export function ProcessList({ processList, processes }: ProcessProps) {
