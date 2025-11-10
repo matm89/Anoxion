@@ -77,6 +77,7 @@ async function toggleProcess (req, res) {
       );
       state.status = "stopped";
     }
+    console.log(state.status);
     // Start or stop live mock stream
     if (state.status === "running") {
       // Start stream if not already running
@@ -95,8 +96,9 @@ async function toggleProcess (req, res) {
               hum: (40 + Math.random() * 10).toFixed(1),
             },
           };
+          //console.log(data);
           req.io.emit("process-data", data);
-        }, 1000);
+        }, 2000);
       }
     } else {
       // Stop stream

@@ -56,19 +56,43 @@ export async function toggleProcess(device:Device) {
 
 export function useLiveData() {
   const [data, setData] = useState<Process[]>([]);
-  const [socket] = useState<Socket>(() => io(`${apiUrl}`));
+  const [socket] = useState<Socket>(() => io(`${apiUrl}`, {
+    transports: ['websocket', 'polling'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax: 5000,
+    reconnectionAttempts: Infinity,
+    rejectUnauthorized: false
+  }));
 
   useEffect(() => {
-    socket.on("process-data", (payload: Process) => {
+    const handleProcessData = (payload: Process) => {
+      // console.log(payload);
       setData((prev) => [...prev.slice(-99), payload]);
-      console.log('socket on');
+    };
+
+    // Connection event handlers
+    socket.on("connect", () => {
+      console.log("✅ Socket connected:", socket.id);
     });
 
+    socket.on("disconnect", (reason) => {
+      console.log("❌ Socket disconnected:", reason);
+    });
+
+    socket.on("connect_error", (error) => {
+      console.error("⚠️ Connection error:", error);
+    });
+
+    socket.on("process-data", handleProcessData);
+
     return () => {
-      socket.off("process-data");
-      socket.disconnect();
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("connect_error");
+      socket.off("process-data", handleProcessData);
     };
-  }, [socket]);
+  }, [socket]); // socket is stable due to useState initialization
 
   return data;
 }

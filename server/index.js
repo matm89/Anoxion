@@ -12,7 +12,10 @@ const PORT = 3000;
 const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
-  cors: {origin: "*"},
+  cors: { origin: "*" },
+  pingInterval: 25000,    // Send ping every 25 seconds
+  pingTimeout: 60000,     // Wait 60 seconds for pong before closing
+  transports: ['websocket', 'polling']
 })
 
 ///handle socket connection
@@ -33,8 +36,8 @@ app.use(cors())
 });
 
 
-app.listen(PORT,() => {
+httpServer.listen(PORT,() => {
   console.log(`Server 🏃‍♂️‍➡️ on http://localhost:${PORT}`);
 });
 
-module.export = io;
+module.exports = io;

@@ -10,8 +10,30 @@ import type { Device } from "../types/device";
 import gsap from "gsap";
 import { getProcesses } from "../services/processes";
 import { ProcessList } from "../components/processlist/processlist";
-import type { Process } from "../types/process";
+import type { Process, ProcessProps } from "../types/process";
 import { useLiveData } from "../services/mock";
+import { LiveCharts } from "../components/livecharts/livecharts";
+
+const LiveDashboard = () => {
+  const data = useLiveData();
+  return (
+    <div>
+      <h2 className="text-brand-700">🔴 Live process data</h2>
+      {data.length > 0 && (
+        <>
+          <p>O2: {data.at(-1).values.O2}%</p>
+          <p>Temp: {data.at(-1).values.temp}°C</p>
+          <p>Hum: {data.at(-1).values.hum}%</p>
+        </>
+      )}
+      {data.length > 0 && (
+        <>
+        <LiveCharts processes={data as Process[]}/>
+        </>
+      )}
+    </div>
+  );
+};
 
 export function Dashboard() {
   const email = authStore.getState().email;
@@ -106,23 +128,6 @@ export function Dashboard() {
     { icon: <VscAccount size={18} />, label: "Profile", onClick: () => navigate("/profile") },
   ];
 
-  const LiveDashboard = () => {
-    const data = useLiveData();
-  
-    return (
-      <div>
-        <h2>🔴 Live process data</h2>
-        {data.length > 0 && (
-          <>
-            <p>O2: {data.at(-1).values.O2}%</p>
-            <p>Temp: {data.at(-1).values.temp}°C</p>
-            <p>Hum: {data.at(-1).values.hum}%</p>
-          </>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div
       id="dashContainer"
@@ -131,7 +136,7 @@ export function Dashboard() {
     >
       <div id="header container" className="flex flex-col items-center mb-6">
         <img src="/logo.png" alt="logo" className="w-[30vw] h-[30vh] mb-1 drop-shadow-lg" />
-        <h1 className="text-3xl font-bold text-brand-700">Devices</h1>
+        <h1 className="text-3xl font-semibold text-brand-700">Devices</h1>
       </div>
 
       <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl">
@@ -146,11 +151,12 @@ export function Dashboard() {
       </div>
       {/* 🔴 Status grid: show live data for running devices */}
       {devices.some((d) => d.state.status === "running") && (
+        <>
+        <h2 className="text-3xl p-4 font-semibold text-brand-700 mb-2">Live Data Stream</h2>
         <div
-          id="LiveContainer"
-          className="w-full max-w-4xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4 mt-8"
+        id="LiveContainer"
+          className="w-full grid grid-cols-1 lg:grid-cols-2 max-w-5xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl mt-8"
         >
-          <h2 className="text-2xl font-semibold text-brand-700 mb-2">Live Data Stream</h2>
           {devices
             .filter((d) => d.state.status === "running")
             .map((d, i) => (
@@ -160,6 +166,7 @@ export function Dashboard() {
               </div>
             ))}
         </div>
+        </>
       )}
       {/* process grid*/}
       <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
