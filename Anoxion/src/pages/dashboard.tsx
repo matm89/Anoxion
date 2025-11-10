@@ -11,8 +11,7 @@ import gsap from "gsap";
 import { getProcesses } from "../services/processes";
 import { ProcessList } from "../components/processlist/processlist";
 import type { Process } from "../types/process";
-
-//! this is the dashboard and it is still a work in progress because i still have to implement the show of the live process if it exits.
+import { useLiveData } from "../services/mock";
 
 export function Dashboard() {
   const email = authStore.getState().email;
@@ -72,6 +71,7 @@ export function Dashboard() {
     }
   },[email])
   
+  //the effect of the gsap getted direct from the info
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Background gradient animation
@@ -99,10 +99,29 @@ export function Dashboard() {
     return () => ctx.revert();
   }, [devices]);
 
+
+  //items of the navBar
   const items = [
     { icon: <VscArchive size={18} />, label: "Archive", onClick: () => navigate("/processes") },
     { icon: <VscAccount size={18} />, label: "Profile", onClick: () => navigate("/profile") },
   ];
+
+  const LiveDashboard = () => {
+    const data = useLiveData();
+  
+    return (
+      <div>
+        <h2>🔴 Live process data</h2>
+        {data.length > 0 && (
+          <>
+            <p>O2: {data.at(-1).values.O2}%</p>
+            <p>Temp: {data.at(-1).values.temp}°C</p>
+            <p>Hum: {data.at(-1).values.hum}%</p>
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div
@@ -125,26 +144,29 @@ export function Dashboard() {
           </div>
         ))}
       </div>
+      {/* 🔴 Status grid: show live data for running devices */}
+      {devices.some((d) => d.state.status === "running") && (
+        <div
+          id="LiveContainer"
+          className="w-full max-w-4xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4 mt-8"
+        >
+          <h2 className="text-2xl font-semibold text-brand-700 mb-2">Live Data Stream</h2>
+          {devices
+            .filter((d) => d.state.status === "running")
+            .map((d, i) => (
+              <div key={i} className="p-2 border-t border-gray-200">
+                <h3 className="font-bold text-brand-600 mb-2">{d.device}</h3>
+                <LiveDashboard />
+              </div>
+            ))}
+        </div>
+      )}
       {/* process grid*/}
       <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
       <div id="process Container" className="grid grid-cols-1 gap-6 w-full max-w-5xl m-2">
 
         {processes && <ProcessList processList={processesList} processes={processes}/>} 
       </div>
-      {/* status grid in case that we have a running process*/}
-        {
-          // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
-          //   {devices.map((device, i) => (
-          //     <div
-          //       key={i}
-          //       className="device-card bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
-          //     >
-          //       <Devices devices={[d]} />
-          //     </div>
-          //   ))}
-          // </div>
-        }
-      
       <div id="DockContainer" className="fixed bottom-0 left-0 right-0 flex items-center justify-center gap-8 mb-4 p-2">
         <Dock items={items} panelHeight={68} baseItemSize={50} magnification={50} />
       </div>

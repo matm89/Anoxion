@@ -101,7 +101,11 @@ export function Devices({ devices, }: DevicesProps) {
 
             {/* E-Stop */}
             {device.state.status === "running"
-              ?<button className="rounded-full bg-color:red " >E-Stop</button>
+              ?<button 
+                onClick={() => startProcess(device)}
+                className="rounded-full text-white p-1 bg-red-500 border-2 border-black " >
+                  E-Stop
+                </button>
               : null
             }
             {/* last Connection */}

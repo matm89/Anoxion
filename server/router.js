@@ -1,5 +1,5 @@
 const { getDevices, postDevice } = require('./controllers/devices');
-const toggleMock = require('./controllers/mock');
+const {toggleMock, toggleProcess} = require('./controllers/mock');
 const getProcess = require('./controllers/process');
 const { validateUser, validateDevice, validateMail } = require('./model/validators');
 
@@ -20,7 +20,7 @@ router.get('/process', validateUser, getProcess);
 
 // Routing to mocks
 router.post('/mock',toggleMock);
-// router.post('/mock/process')
+router.post('/mock/process',toggleProcess);
 
 //!Routing to users (to implement in future versions)
 
