@@ -10,7 +10,7 @@ import type { Device } from "../types/device";
 import gsap from "gsap";
 import { getProcesses } from "../services/processes";
 import { ProcessList } from "../components/processlist/processlist";
-import type { Process, ProcessProps } from "../types/process";
+import type { Process } from "../types/process";
 import { useLiveData } from "../services/mock";
 import { LiveCharts } from "../components/livecharts/livecharts";
 
@@ -63,7 +63,7 @@ export function Dashboard() {
         });
       };
       timeInterval();
-      setInterval(timeInterval, 10000);
+      setInterval(timeInterval, 1000);
     } catch (error) {
       console.log(error);
       toast.error("🚨 occurs getting data", {
@@ -139,11 +139,12 @@ export function Dashboard() {
         <h1 className="text-3xl font-semibold text-brand-700">Devices</h1>
       </div>
 
-      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl">
+      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl p-2">
         {devices.map((d, i) => (
           <div
             key={i}
-            className="device-card bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl p-4"
+            id="deviceCard"
+            className="device-card m-2 bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl"
           >
             <Devices devices={[d]} setDevices={setDevices} />
           </div>
@@ -155,12 +156,12 @@ export function Dashboard() {
         <h2 className="text-3xl p-4 font-semibold text-brand-700 mb-2">Live Data Stream</h2>
         <div
         id="LiveContainer"
-          className="w-full grid grid-cols-1 lg:grid-cols-2 max-w-5xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl mt-8"
+          className="w-full flex flex-row max-w-5xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl mt-8"
         >
           {devices
             .filter((d) => d.state.status === "running")
             .map((d, i) => (
-              <div key={i} className="p-2 border-t border-gray-200">
+              <div key={i} className="p-2 w-full border-t border-gray-200">
                 <h3 className="font-bold text-brand-600 mb-2">{d.device}</h3>
                 <LiveDashboard />
               </div>

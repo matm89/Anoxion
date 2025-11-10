@@ -18,6 +18,7 @@ export function ProcessList({ processList, processes }: ProcessProps) {
       (p) => p.process_id == proc
     );
     const result = procs[procs.length -1].result;
+
     return result;
   }
   
@@ -40,7 +41,12 @@ export function ProcessList({ processList, processes }: ProcessProps) {
               </span>
 
               {/*Result of process */}
-              <span className="text-lg font-semibold text-blue-900">
+              <span className={`text-lg font-semibold text-blue-900
+                 ${getResult(proc as string) == "Failure"
+                 ? "text-red-500" 
+                 : "text-green-500"
+                 }`}
+              >
                 {getResult(proc as string)}
               </span>
               
