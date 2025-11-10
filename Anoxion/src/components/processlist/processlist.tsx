@@ -7,14 +7,24 @@ interface ProcessProps {
   processes: Process[];
 }
 
+
 export function ProcessList({ processList, processes }: ProcessProps) {
   const [selectedProcess, setSelectedProcess] = useState<string | number | null>(null);
-
+  
   // Set the selected process id to render details below
   function handleDetails(processItem: string | number) {
     setSelectedProcess(processItem);
   }
 
+  //helper to get the result of a process
+  function getResult(proc: string) {
+    const procs = processes.flat().filter(
+      (p) => p.process_id == proc
+    );
+    const result = procs[procs.length -1].result;
+    return result;
+  }
+  
   return (
     <div className="flex flex-col w-full items-center">
       {/* items rows */}
@@ -32,7 +42,13 @@ export function ProcessList({ processList, processes }: ProcessProps) {
               <span className="text-lg font-semibold text-blue-900">
                 {proc}
               </span>
-  
+
+              {/*Result of process */}
+              <span className="text-lg font-semibold text-blue-900">
+                {getResult(proc as string)}
+              </span>
+              
+
               {/* Details button */}
               <button
                 onClick={() => handleDetails(proc)}

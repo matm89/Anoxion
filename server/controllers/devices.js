@@ -10,7 +10,6 @@ try {
 
   //first we get the devices that each user have 
   const { email } = req.query;
-  console.log(email);
   const user = await User.findOne({email: email});
 
   //then we get info of each device and make an array of them.

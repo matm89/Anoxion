@@ -12,6 +12,8 @@ import { getProcesses } from "../services/processes";
 import { ProcessList } from "../components/processlist/processlist";
 import type { Process } from "../types/process";
 
+//! this is the dashboard and it is still a work in progress because i still have to implement the show of the live process if it exits.
+
 export function Dashboard() {
   const email = authStore.getState().email;
   const navigate = useNavigate();
@@ -65,13 +67,6 @@ export function Dashboard() {
       });
     }
   },[email])
-
-  // Start mock updater
-  useEffect(() => {
-    const stopMock = mockDeviceConnections(devices, setDevices, 30_000); // 30s for testing
-    return stopMock;
-  }, []);
-
   
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -96,7 +91,7 @@ export function Dashboard() {
       });
 
       // Hover effect for device cards
-      gsap.utils.toArray(".device-card").forEach((el: any) => {
+      gsap.utils.toArray(".device-card").forEach((el:any) => {
         const hover = gsap.to(el, {
           scale: 1.05,
           duration: 0.3,
@@ -127,7 +122,7 @@ export function Dashboard() {
         <h1 className="text-3xl font-bold text-brand-700">Dashboard</h1>
       </div>
 
-      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl">
         {devices.map((d, i) => (
           <div
             key={i}
@@ -164,24 +159,4 @@ export function Dashboard() {
   );
 }
 
-/**
- * Mock device updater
- */
-function mockDeviceConnections(
-  devices: Device[],
-  setDevices: React.Dispatch<React.SetStateAction<Device[]>>,
-  interval: number = 5 * 60 * 1000
-) {
-  const updateDevices = () => {
-    const now = new Date().toISOString();
-    setDevices((prev) =>
-      prev.map((dev) => ({
-        ...dev,
-        last_check: now,
-      }))
-    );
-  };
-  updateDevices();
-  const timer = setInterval(updateDevices, interval);
-  return () => clearInterval(timer);
-}
+

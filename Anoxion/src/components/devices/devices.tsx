@@ -1,3 +1,4 @@
+import { useMockDeviceConnections } from "../../hooks/mockFunctions/mocks";
 import type { Device } from "../../types/device";
 
 
@@ -5,10 +6,21 @@ interface DevicesProps {
   devices: Device[];
 }
 
+
+
 export function Devices({ devices }: DevicesProps) {
+  
+  const mocksStatus = useMockDeviceConnections();
+  
+  // mock function for demo
+  function startMock(device: Device) {
+    mocksStatus.setDevice(device);
+    mocksStatus.toggleConnection();
+    console.log(mocksStatus);
+  };
 
   const now = new Date();
-
+  
   const isOffline = (last_check: string): boolean => {
     if (!last_check) return true;
     const diff = now.getTime() - new Date(last_check).getTime();
@@ -20,6 +32,7 @@ export function Devices({ devices }: DevicesProps) {
     <div className="flex flex-col gap-3 w-full p-4">
       {devices.map((device) => {
         const offline = isOffline(device.state.last_check);
+
         return (
           <div
             key={device.device}
@@ -37,6 +50,7 @@ export function Devices({ devices }: DevicesProps) {
                 {device.device}
               </span>
               <span
+                onClick={() => startMock(device)}
                 className={`text-sm ${
                   offline ? "text-red-500" : "text-blue-700"
                 }`}

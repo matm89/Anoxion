@@ -45,13 +45,10 @@ export function Login() {
           alt="Anoxion Logo"
           className="w-[50vw] h-0,5 mb-1 drop-shadow-sm"
         />
-        <h1 className="text-3xl font-bold text-brand-700 tracking-tight">
-          Anoxion
-        </h1>
       </div>
 
       {/* Login Card */}
-      <div className="w-[50vw] max-w-md bg-white rounded-2xl shadow-lg p-8 border border-brand-200">
+      <div className="w-[50vw] max-w-md bg-white rounded-2xl shadow-lg p-2 border border-brand-200">
         <h2 className="text-xl font-semibold text-center text-brand-700 mb-1">
           Welcome Back
         </h2>

@@ -1,100 +1,139 @@
-import Box from '@mui/material/Box';
-import { ChartContainer } from '@mui/x-charts/ChartContainer';
-import { ChartsReferenceLine } from '@mui/x-charts/ChartsReferenceLine';
-import { LineChart, LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
-import { ChartsXAxis } from '@mui/x-charts/ChartsXAxis';
-import { ChartsYAxis } from '@mui/x-charts/ChartsYAxis';
+import { useRef } from 'react';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import type { Process } from '../../types/process';
 import { format } from 'date-fns';
 
+// Register required components
+ChartJS.register(
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  zoomPlugin
+);
+
 export function ProcessDetails({ processes }: { processes: Process[] }) {
-
-  // console.log(processes);
-
   if (!processes || processes.length === 0) {
     return <div>No process data available</div>;
   }
 
-  const start = processes[0];
-  const finish = processes[processes.length - 1];
+  // Format timestamps for x-axis
+  const formatedDate = processes.map((p) => format(p.timestamp, "do',' HH':'mm"));
+  const oData = processes.map((p) => p.values.O2);
+  const hData = processes.map((p) => p.values.hum);
 
-  const formatedDate = processes.map((process) => format(process.timestamp, "do',' HH':'mm"));
+  const o2ChartRef = useRef<any>(null);
+  const humChartRef = useRef<any>(null);
 
-  // console.log(formatedDate);
-  // console.log(start, finish);
+  // Common chart options
+  const baseOptions = {
+    responsive: true,
+    animation: false,
+    interaction: { mode: 'index' as const, intersect: false },
+    plugins: {
+      legend: { position: 'top' as const },
+      zoom: {
+        zoom: {
+          wheel: { enabled: true },
+          pinch: { enabled: true },
+          mode: 'x' as const,
+        },
+        pan: {
+          enabled: true,
+          mode: 'x' as const,
+        },
+      },
+    },
+    scales: {
+      x: { title: { display: true, text: 'Time' } },
+      y: { beginAtZero: false },
+    },
+  };
 
-  const margin = { right: 24 };
-  // Prepare numeric series for charts
-  const oData = processes.map((process) => process.values.O2);
-  const hData = processes.map((process) => process.values.hum);
-  console.log(hData);
-  const xLabels = formatedDate;
+  // Dataset definitions
+  const o2ChartData = {
+    labels: formatedDate,
+    datasets: [
+      {
+        label: 'O₂ (%)',
+        data: oData,
+        borderColor: '#2563eb',
+        backgroundColor: '#3b82f6',
+        borderWidth: 2,
+        tension: 0.3,
+        pointRadius: 2,
+      },
+    ],
+  };
 
-function o2LineChart() {
-    return (
-      <Box sx={{ width: '100%', height: 300 }}>
-        <LineChart
-          series={[
-            { data: oData, label: 'O2', type: 'line' },
-          ]}
-          xAxis={[{id:"time" , scaleType: 'point', data: xLabels }]}
-          yAxis={[{ width: 50 }]}
-          margin={margin}
-        >
-          <LinePlot />
-          <MarkPlot />
-          <ChartsReferenceLine
-            x="Page C"
-            label="Max PV PAGE"
-            lineStyle={{ stroke: 'red' }}
-          />
-          <ChartsReferenceLine y={9800} label="Max" lineStyle={{ stroke: 'red' }} />
-          <ChartsXAxis />
-          <ChartsYAxis />
-        </LineChart>
-      </Box>
-    );
-  }
+  const humChartData = {
+    labels: formatedDate,
+    datasets: [
+      {
+        label: 'Humidity (%)',
+        data: hData,
+        borderColor: '#16a34a',
+        backgroundColor: 'rgba(22, 163, 74, 0.2)',
+        fill: true,
+        borderWidth: 2,
+        tension: 0.3,
+        pointRadius: 2,
+      },
+    ],
+  };
 
-  function humLineChart() {
-    return (
-      <Box sx={{ width: '100%', height: 300 }}>
-        <ChartContainer
-          series={[
-            { data: hData, label: 'hum%', type: 'line', area:true },
-          ]}
-          xAxis={[{ scaleType: 'point', data: xLabels }]}
-          yAxis={[{ width: 50 }]}
-          margin={margin}
-        >
-          <LinePlot />
-          <MarkPlot />
-          <ChartsReferenceLine
-            x="Page C"
-            label="Max PV PAGE"
-            lineStyle={{ stroke: 'red' }}
-          />
-          <ChartsReferenceLine y={9800} label="Max" lineStyle={{ stroke: 'red' }} />
-          <ChartsXAxis />
-          <ChartsYAxis />
-        </ChartContainer>
-      </Box>
-    );
-  }
-
+  // Zoom control handlers
+  const resetZoom = (chartRef: any) => {
+    chartRef.current?.resetZoom();
+  };
 
   return (
-    <>
-      <div className="grid grid-cols-1 gap-2 w-full max-w-5xl">
-        <h1 className="text-3xl font-bold text-brand-700 aling-self:center"> Process details </h1> 
-        <div id="O2linechar" className="bg-white/80">
-          {o2LineChart()}      
-        </div>
-        <div id="humlinechar" className="bg-white/80">
-          {humLineChart()}      
-        </div>
-      </div>
-    </>
+    <div className="grid grid-cols-1 gap-6 w-full max-w-5xl mx-auto p-4">
+      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">
+        Process details
+      </h1>
 
+      {/* O₂ Chart */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow p-4">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-xl font-semibold text-blue-700">O₂ Levels</h2>
+          <button
+            onClick={() => resetZoom(o2ChartRef)}
+            className="px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded"
+          >
+            Reset Zoom
+          </button>
+        </div>
+        <Line ref={o2ChartRef} data={o2ChartData} options={baseOptions} />
+      </div>
+
+      {/* Humidity Chart */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow p-4">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-xl font-semibold text-green-700">Humidity</h2>
+          <button
+            onClick={() => resetZoom(humChartRef)}
+            className="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded"
+          >
+            Reset Zoom
+          </button>
+        </div>
+        <Line ref={humChartRef} data={humChartData} options={baseOptions} />
+      </div>
+    </div>
   );
 }
