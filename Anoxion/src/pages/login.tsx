@@ -39,7 +39,7 @@ export function Login() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-brand-100 to-brand-300 px-4">
       {/* Logo Header */}
-      <div className="flex flex-col items-center mb-1 ">
+      <div className="flex flex-col items-center p-4 ">
         <img
           src="/logo.png"
           alt="Anoxion Logo"

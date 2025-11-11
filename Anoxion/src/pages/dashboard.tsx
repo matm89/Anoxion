@@ -49,51 +49,41 @@ export function Dashboard() {
     const processes = useRef<Process[]>([]);
     const processesList= useRef([]);
 
-    // Memoize ProcessList to prevent re-renders when devices change
-    const memoizedProcessList = useMemo(() => {
-      return (
-        processes.current && <ProcessList processList={processesList.current} processes={processes.current}/>
-      );
-    }, [processes]);
     
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  //get devices with email
-  useEffect(() => {
-    if (!email) return; 
-    try {
-      function timeInterval() {
-        const getData = async () => {
-          const data = await getDevices(email);
-          setDevices(data);
-          // console.log(data);
+    const containerRef = useRef<HTMLDivElement>(null);
+    
+    //get devices with email
+    useEffect(() => {
+      if (!email) return; 
+      try {
+        function timeInterval() {
+          const getData = async () => {
+            const data = await getDevices(email);
+            setDevices(data);
+            // console.log(data);
+          };
+          getData().catch((error) => {
+            throw new Error(error);
+          });
         };
-        getData().catch((error) => {
-          throw new Error(error);
+        timeInterval();
+        setInterval(timeInterval, 1000);
+      } catch (error) {
+        console.log(error);
+        toast.error("🚨 occurs getting data", {
+          icon: () => <img src="/icon.png" width={20} />,
         });
-      };
-      timeInterval();
-      setInterval(timeInterval, 1000);
-    } catch (error) {
-      console.log(error);
-      toast.error("🚨 occurs getting data", {
-        icon: () => <img src="/icon.png" width={20} />,
-      });
     }
   }, [email]);
-
+  
   //get process from service
   useEffect(() => {
     if(!email) return;
     try {
       const getData = async () => {
         const data = await getProcesses();
-        // console.log(data);
         processesList.current = data[0];
         processes.current = data[1];
-
-        // setProcressList(data[0]);
-        // setProcesses(data[1]);
       };
       getData().catch((error) => {
         throw new Error(error);
@@ -117,7 +107,7 @@ export function Dashboard() {
         yoyo: true,
         ease: "power1.inOut",
       });
-
+      
       // Hover effect for device cards
       gsap.utils.toArray<HTMLElement>(".device-card").forEach((el: HTMLElement) => {
         const hover = gsap.to(el, {
@@ -130,18 +120,24 @@ export function Dashboard() {
         el.addEventListener("mouseleave", () => hover.reverse());
       });
     }, containerRef);
-
+    
     return () => ctx.revert();
   }, [devices]);
-
-
-
+  
+  
+  // Memoize ProcessList to prevent re-renders when devices change
+  const memoizedProcessList = useMemo(() => {
+    return (
+      processes.current && <ProcessList processList={processesList.current} processes={processes.current}/>
+    );
+  },[processes.current]);
+  
   //items of the navBar
   const items = [
     { icon: <VscArchive size={18} />, label: "Archive", onClick: () => navigate("/processes") },
     { icon: <VscAccount size={18} />, label: "Profile", onClick: () => navigate("/profile") },
   ];
-
+  
   return (
     <div
       id="dashContainer"
