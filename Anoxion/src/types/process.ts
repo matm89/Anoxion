@@ -23,3 +23,34 @@ export interface ProcessProps {
   processList: Array<string | number>;
   processes: Process[];
 }
+
+// Common chart options
+export interface BaseOptions {
+  responsive: boolean,
+  animation: boolean,
+  interaction: { 
+    mode: 'index' | string, 
+    intersect: boolean },
+  plugins: {
+    legend: { position: 'top' | string},
+    zoom: {
+      zoom: {
+        wheel: { enabled: boolean },
+        pinch: { enabled: boolean },
+        mode: 'x' | string,
+      },
+      pan: {
+        enabled: boolean,
+        mode: 'x' | string,
+      },
+    },
+  },
+  scales: {
+    x: { title: { 
+          display: boolean, 
+          text: 'Time' | string 
+        } 
+      },
+    y: { beginAtZero: boolean },
+  },
+};

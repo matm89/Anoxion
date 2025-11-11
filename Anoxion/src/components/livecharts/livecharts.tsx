@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import type { ChartOptions } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import type { Process } from '../../types/process';
 import { format } from 'date-fns';
@@ -36,32 +37,32 @@ export function LiveCharts({ processes }: { processes: Process[] }) {
   const o2ChartRef = useRef(null);
   const humChartRef = useRef(null);
   
-  if (!processes || processes.length === 0) {
-    return <div>No process data available</div>;
-  }
-  // Common chart options
-  const baseOptions = {
-    responsive: true,
-    animation: false,
-    interaction: { mode: 'index' as const, intersect: false },
-    plugins: {
-      legend: { position: 'top' as const },
-      zoom: {
+  // Common chart options made by IA
+    const baseOptions: ChartOptions<'line'> = {
+      responsive: true,
+      animation: false,
+      interaction: { mode: 'index' as const, intersect: false },
+      plugins: {
+        legend: { position: 'top' as const },
         zoom: {
-          wheel: { enabled: true },
-          pinch: { enabled: true },
-          mode: 'x' as const,
-        },
-        pan: {
-          enabled: true,
-          mode: 'x' as const,
+          zoom: {
+            wheel: { enabled: true },
+            pinch: { enabled: true },
+            mode: 'x' as const,
+          },
+          pan: {
+            enabled: true,
+            mode: 'x' as const,
+          },
         },
       },
-    },
-    scales: {
-      x: { title: { display: true, text: 'Time' } },
-      y: { beginAtZero: false },
-    },
+      scales: {
+        x: { title: { display: true, text: 'Time' } },
+        y: { beginAtZero: false },
+      },
+    };
+  if (!processes || processes.length === 0) {
+    return <div>No process data available</div>;
   };
 
   // Dataset definitions

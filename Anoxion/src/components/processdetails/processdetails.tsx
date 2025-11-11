@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -26,7 +26,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-export function ProcessDetails({ processes }: { processes: Process[] }) {
+export const ProcessDetails = memo(function ProcessDetailsComponent({ processes }: { processes: Process[] }) {
   
   // Format timestamps for x-axis
   const formatedDate = processes.map((p) => format(p.timestamp, "do',' HH':'mm"));
@@ -140,4 +140,4 @@ export function ProcessDetails({ processes }: { processes: Process[] }) {
       </div>
     </div>
   );
-}
+});

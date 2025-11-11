@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import Dock from "../components/navbar/navbar";
 import { VscArchive, VscAccount } from "react-icons/vsc";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import { getDevices } from "../services/devices";
 import { authStore } from "../context/auth";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ const LiveDashboard = () => {
       )}
       {data.length > 0 && (
         <>
-        <LiveCharts processes={data as Process[]}/>
+        <LiveCharts processes={data as unknown as Process[]}/>
         </>
       )}
     </div>
@@ -38,17 +38,27 @@ const LiveDashboard = () => {
 export function Dashboard() {
   const email = authStore.getState().email;
   const navigate = useNavigate();
-
+  
   const [devices, setDevices] = useState<Device[]>([
-    { device: "example", state: { "e-stop": false, status: "stoped", last_check: new Date } },
-  ]);
+    { device: "Loadings Devices", state: { 
+      "e-stop": false,
+      status: "stopped",
+      last_check: new Date } },
+    ]);
+    
+    const processes = useRef<Process[]>([]);
+    const processesList= useRef([]);
 
-  const [processes , setProcesses] = useState<Process[]>();
-  const [processesList , setProcressList] = useState([]);
-
+    // Memoize ProcessList to prevent re-renders when devices change
+    const memoizedProcessList = useMemo(() => {
+      return (
+        processes.current && <ProcessList processList={processesList.current} processes={processes.current}/>
+      );
+    }, [processes]);
+    
   const containerRef = useRef<HTMLDivElement>(null);
 
-  //get data with email
+  //get devices with email
   useEffect(() => {
     if (!email) return; 
     try {
@@ -79,8 +89,11 @@ export function Dashboard() {
       const getData = async () => {
         const data = await getProcesses();
         // console.log(data);
-        setProcressList(data[0]);
-        setProcesses(data[1]);
+        processesList.current = data[0];
+        processes.current = data[1];
+
+        // setProcressList(data[0]);
+        // setProcesses(data[1]);
       };
       getData().catch((error) => {
         throw new Error(error);
@@ -122,6 +135,7 @@ export function Dashboard() {
   }, [devices]);
 
 
+
   //items of the navBar
   const items = [
     { icon: <VscArchive size={18} />, label: "Archive", onClick: () => navigate("/processes") },
@@ -146,7 +160,7 @@ export function Dashboard() {
             id="deviceCard"
             className="device-card m-2 bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl"
           >
-            <Devices devices={[d]} setDevices={setDevices} />
+            <Devices device={d}/>
           </div>
         ))}
       </div>
@@ -173,9 +187,9 @@ export function Dashboard() {
       <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
       <div id="process Container" className="grid grid-cols-1 gap-6 w-full max-w-5xl m-2">
 
-        {processes && <ProcessList processList={processesList} processes={processes}/>} 
+        {memoizedProcessList} 
       </div>
-      <div id="DockContainer" className="fixed bottom-0 left-0 right-0 flex items-center justify-center gap-8 mb-4 p-2">
+      <div id="DockContainer" className="fixed bottom-0 left-0 right-0 flex items-center justify-left gap-8 mb-4 p-2">
         <Dock items={items} panelHeight={68} baseItemSize={50} magnification={50} />
       </div>
     </div>

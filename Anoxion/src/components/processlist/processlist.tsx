@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import type { ProcessProps } from "../../types/process";
 import { ProcessDetails } from "../processdetails/processdetails";
 
 
 
-export function ProcessList({ processList, processes }: ProcessProps) {
+export const ProcessList = memo(function ProcessListComponent({ processList, processes }: ProcessProps) {
   const [selectedProcess, setSelectedProcess] = useState<string | number | null>(null);
   
   // Set the selected process id to render details below
@@ -79,4 +79,4 @@ export function ProcessList({ processList, processes }: ProcessProps) {
       </div>
     </div>
   );
-}
+});

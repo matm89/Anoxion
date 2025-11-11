@@ -3,15 +3,15 @@ export interface Device {
   state: {
     "e-stop": boolean,
     status: "running" | "stopped" | string,
-    last_check: Date
-  };
+    last_check: Date,
+  }
 }
 
-export interface DevicesProps {
-  devices: Device[],
-  setDevices: React.Dispatch<React.SetStateAction<Device[]>>
+// export interface DevicesProps {
+//   devices: Device[],
+//   setDevices: React.Dispatch<React.SetStateAction<Device[]>>
 
-}
+// }
 
 export type DeviceMock = {
   device:string,

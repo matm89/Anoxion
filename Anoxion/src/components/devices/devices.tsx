@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { Device, DeviceMock, DevicesProps } from "../../types/device";
+import type { Device, DeviceMock, } from "../../types/device";
 import { toggleMock, toggleProcess } from "../../services/mock";
 
 
-export function Devices({ devices, }: DevicesProps) {
-  
+export function Devices(device: Device) {
+  device = device.device; //Todo learn what it going on here
   const [state, setState] = useState(false);
   const [statusProcess, setStatusProcess] = useState(false);
   
@@ -53,12 +53,9 @@ export function Devices({ devices, }: DevicesProps) {
     return minutes > 1;
   };
 
+  const offline = isOffline(device.state.last_check);
   return (
     <div className="flex flex-col gap-3 w-full p-4">
-      {devices.map((device) => {
-        const offline = isOffline(device.state.last_check);
-
-        return (
           <div
             key={device.device}
             className={`flex items-center justify-between p-4 border-4 rounded-xl shadow-md 
@@ -115,8 +112,6 @@ export function Devices({ devices, }: DevicesProps) {
                 : "—"}
             </div>
           </div>
-        );
-      })}
     </div>
   );
 }
