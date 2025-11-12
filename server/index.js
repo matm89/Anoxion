@@ -1,7 +1,6 @@
 'use strict'
 const express = require('express');
 const router = require('./router');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Server } = require('socket.io');
 const http = require('http');
@@ -25,7 +24,7 @@ io.on("connection", (socket) => {
 });
 
 app.use(cors())
-.use(bodyParser.json())
+.use(express.json())
 .use("/", (req,res,next) => {
   req.io = io; //attach the io to the req.
   next()

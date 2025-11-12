@@ -16,6 +16,8 @@ try {
     { $project: { _id: 0, result: ["$ids", "$groups"] } }
   ]);
 
+  if (!processes[0].result) return res.status(400).send('Empty object on the return query');
+  
   res.status(200).send(processes[0].result);
 
 } catch (error) {

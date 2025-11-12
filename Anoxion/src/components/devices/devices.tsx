@@ -4,7 +4,7 @@ import { toggleMock, toggleProcess } from "../../services/mock";
 
 
 export function Devices(device: Device) {
-  device = device.device; //Todo learn what it going on here
+  device = device.device; //Todo fix typescript here im not sure why it send an object nested
   const [state, setState] = useState(false);
   const [statusProcess, setStatusProcess] = useState(false);
   
@@ -44,22 +44,37 @@ export function Devices(device: Device) {
     }
   }
 
+  const OFFLINE_THRESHOLD_MIN = 1; //! 10 mins in development used 1 to test
+
   const now = new Date();
   //check if it was online the last minute
-  const isOffline = (last_check: Date): boolean => {
-    if (!last_check) return true;
-    const diff = now.getTime() - new Date(last_check).getTime();
+  const isOffline = (lastCheck: Date): boolean => {
+    if (!lastCheck) return true;
+    const diff = now.getTime() - new Date(lastCheck).getTime();
     const minutes = diff / 1000 / 60;
-    return minutes > 1;
+    return minutes > OFFLINE_THRESHOLD_MIN;
   };
 
   const offline = isOffline(device.state.last_check);
+
+  function removeNestedStatus(status:string) {
+
+    const result = ["bg-green-100 text-green-700", "bg-yellow-100 text-yellow-700", "bg-gray-100 text-gray-700"];
+
+    if (status === "running") {
+      return result[0];
+    } else if ( status === "stopped") {
+      return result[1];
+    } else {
+      return result[3];
+    }
+  }
   return (
     <div className="flex flex-col gap-3 w-full p-4">
           <div
             key={device.device}
             className={`flex items-center justify-between p-4 border-4 rounded-xl shadow-md 
-              transition-colors duration-300 border
+              transition-colors duration-300
               ${
                 offline
                   ? "bg-red-100 border-red-400"
@@ -86,11 +101,7 @@ export function Devices(device: Device) {
               onClick={() => startProcess(device)}
               className={`text-sm font-medium px-3 py-1 rounded-full 
               ${
-                device.state.status === "running"
-                  ? "bg-green-100 text-green-700"
-                  : device.state.status === "stopped"
-                  ? "bg-yellow-100 text-yellow-700"
-                  : "bg-gray-100 text-gray-700"
+                removeNestedStatus(device.state.status)
               }`}
             >
               {device.state.status}

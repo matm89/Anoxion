@@ -5,10 +5,11 @@ import { ProcessDetails } from "../processdetails/processdetails";
 
 
 export const ProcessList = memo(function ProcessListComponent({ processList, processes }: ProcessProps) {
-  const [selectedProcess, setSelectedProcess] = useState<string | number | null>(null);
+
+  const [selectedProcess, setSelectedProcess] = useState<string | null>(null);
   
   // Set the selected process id to render details below
-  function handleDetails(processItem: string | number) {
+  function handleDetails(processItem: string ) {
     setSelectedProcess(processItem);
   }
 
@@ -53,7 +54,7 @@ export const ProcessList = memo(function ProcessListComponent({ processList, pro
 
               {/* Details button */}
               <button
-                onClick={() => handleDetails(proc)}
+                onClick={() => handleDetails(proc as string)}
                 className="mt-3 relative px-4 py-2 text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:from-green-500 hover:to-blue-700 text-white transition-all duration-150 focus:ring-2 focus:ring-green-300"
               >
                 <span className="relative">Details</span>
@@ -71,7 +72,7 @@ export const ProcessList = memo(function ProcessListComponent({ processList, pro
           <div className="w-full max-w-6xl">
             <ProcessDetails
               processes={processes.flat().filter(
-                (p) => p.process_id == selectedProcess
+                (p) => p.process_id === selectedProcess
               )}
             />
           </div>

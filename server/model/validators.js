@@ -10,7 +10,7 @@ const validateDevice = [
   body('state.connected').optional().isBoolean().withMessage('connecter should be a boolean type'),
   
   body('state.last_check').optional().custom((value) => {
-    if (typeof value !== 'number' || typeof value !== 'bigint') {
+    if (typeof value !== Date || typeof value !== 'bigint') {
       throw new Error ('state.last_check should be a number');
     }
     if (value < 0) throw new Error ('state.last_check should be bigger than 0');
@@ -20,33 +20,15 @@ const validateDevice = [
 
 
 const validateMail = [
-  (req, res, next) => {
-    if (req.method === 'GET') {
-      return query('email').isEmail().normalizeEmail()(req, res, next);
-    } else {
-      return body('email').isEmail().normalizeEmail()(req, res, next);
-    }
-  },
-  body('name').optional().trim().isLength({ min:2}).escape(),
+   query('email').isEmail().normalizeEmail()
 ];
 
 const validateUser = [
-  (req, res, next) => {
-    if (req.method === 'GET') {
-      return query('user').trim()
+  query('user').trim()
         .notEmpty()
         .isString()
         .isLength({ min: 2 })
-        .withMessage('Username is required and must be at least 2 characters long')(req, res, next);
-    } else {
-      return body('user').trim()
-        .notEmpty()
-        .isString()
-        .isLength({ min: 2 })
-        .withMessage('Username is required and must be at least 2 characters long')(req, res, next);
-    }
-  },
-  body('name').optional().trim().isLength({ min: 2 }).escape(),
+        .withMessage('Username is required and must be at least 2 characters long')
 ];
 
 const validateProcess = [
@@ -56,7 +38,7 @@ const validateProcess = [
 
   body('device').trim().notEmpty().withMessage('device is required').isString().escape(),
 
-  body('timestamp').trim().notEmpty().withMessage('timestamp is required').isISO8601().withMessage('timestamp must be a valid date string'),
+  body('timestamp').notEmpty().withMessage('timestamp is required').isISO8601().withMessage('timestamp must be a valid date string'),
 
   body('state').optional().trim().isString().escape(),
 

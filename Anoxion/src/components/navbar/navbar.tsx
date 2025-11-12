@@ -1,5 +1,3 @@
-'use client';
-
 
 /* all paths 
 { icon: <VscHome size={18} />, label: 'Home', onClick: () => navigate('/') },
