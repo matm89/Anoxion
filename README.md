@@ -149,4 +149,7 @@ Anoxion/
 | 📱 UI            | Improve mobile layout / darktheme     | 🔜 Planned     |
 | 🔒 Security      | Add refresh token support Auto logout | 🔜 Planned     |
 | 📡 Communication | Improve WebSocket reconnect handling  | ⏳ In progress |
-| 🧑‍💻 FE,BE & DB    | Change getting process by email       | 🔜 Planned     |
+| 🧑‍💻 FE,BE & DB    | Change getting process by email       | 🔜 Planned     | 
+
+
+<!-- new addition -->
