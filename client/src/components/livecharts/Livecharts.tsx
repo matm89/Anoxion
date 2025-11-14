@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import type { ChartOptions } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
-import type { Process } from '../../types/process';
+import type { LiveSample } from '../../types/live';
 import { format } from 'date-fns';
 
 // Register required components
@@ -24,45 +24,49 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  zoomPlugin
+  zoomPlugin,
 );
 
-export function LiveCharts({ processes }: { processes: Process[] }) {
-  
-  // Format timestamps for x-axis
-  const formatedDate = processes.map((p) => format(p.timestamp, "do',' HH':'mm"));
-  const oData = processes.map((p) => p.values.O2);
-  const hData = processes.map((p) => p.values.hum);
-  
+interface Props {
+  processes: LiveSample[];
+}
+
+export function LiveCharts({ processes }: Props) {
   const o2ChartRef = useRef(null);
   const humChartRef = useRef(null);
-  
-  // Common chart options made by IA
-    const baseOptions: ChartOptions<'line'> = {
-      responsive: true,
-      animation: false,
-      interaction: { mode: 'index' as const, intersect: false },
-      plugins: {
-        legend: { position: 'top' as const },
-        zoom: {
-          zoom: {
-            wheel: { enabled: true },
-            pinch: { enabled: true },
-            mode: 'x' as const,
-          },
-          pan: {
-            enabled: true,
-            mode: 'x' as const,
-          },
-        },
-      },
-      scales: {
-        x: { title: { display: true, text: 'Time' } },
-        y: { beginAtZero: false },
-      },
-    };
+
   if (!processes || processes.length === 0) {
     return <div>No process data available</div>;
+  }
+
+  // Format timestamps for x-axis
+  const formatedDate = processes.map((p) => format(new Date(p.timestamp), "do',' HH':'mm"));
+  const oData = processes.map((p) => p.values.O2);
+  const hData = processes.map((p) => p.values.hum);
+
+  // Common chart options made by IA
+  const baseOptions: ChartOptions<'line'> = {
+    responsive: true,
+    animation: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top' },
+      zoom: {
+        zoom: {
+          wheel: { enabled: true },
+          pinch: { enabled: true },
+          mode: 'x',
+        },
+        pan: {
+          enabled: true,
+          mode: 'x',
+        },
+      },
+    },
+    scales: {
+      x: { title: { display: true, text: 'Time' } },
+      y: { beginAtZero: false },
+    },
   };
 
   // Dataset definitions
@@ -108,9 +112,7 @@ export function LiveCharts({ processes }: { processes: Process[] }) {
 
   return (
     <div className="grid grid-cols-1 gap-6 w-full max-w-5xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">
-        Process details
-      </h1>
+      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">Process details</h1>
 
       {/* O₂ Chart */}
       <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow p-4">
@@ -118,8 +120,7 @@ export function LiveCharts({ processes }: { processes: Process[] }) {
           <h2 className="text-xl font-semibold text-blue-700">O₂ Levels</h2>
           <button
             onClick={() => resetZoom(o2ChartRef)}
-            className="px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded"
-          >
+            className="px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded">
             Reset Zoom
           </button>
         </div>
@@ -132,8 +133,7 @@ export function LiveCharts({ processes }: { processes: Process[] }) {
           <h2 className="text-xl font-semibold text-green-700">Humidity</h2>
           <button
             onClick={() => resetZoom(humChartRef)}
-            className="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded"
-          >
+            className="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded">
             Reset Zoom
           </button>
         </div>
