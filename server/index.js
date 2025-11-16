@@ -23,19 +23,18 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => console.log("❌ Client disconnected:", socket.id));
 });
 
-app.use(cors())
-.use(express.json())
-.use("/", (req,res,next) => {
+app.use(cors());
+app.use(express.json());
+app.use((req, res, next) => {
   req.io = io; //attach the io to the req.
-  next()
-},router)
-.use(router)
-.use((req, res) =>{
+  next();
+});
+app.use("/", router);
+app.use((req, res) => {
   res.status(404).send('Page not found');
 });
 
-
-httpServer.listen(PORT,() => {
+httpServer.listen(PORT, () => {
   console.log(`Server 🏃‍♂️‍➡️ on http://localhost:${PORT}`);
 });
 
