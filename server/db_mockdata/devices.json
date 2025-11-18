@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "690b95c8ce6466587407c67e"
+  },
+  "device": "esp32_A",
+  "state": {
+    "e-stop": false,
+    "last_check": {
+      "$date": "2025-11-11T20:52:30.011Z"
+    },
+    "status": "stopped"
+  }
+},
+{
+  "_id": {
+    "$oid": "690b95c8ce6466587407c67f"
+  },
+  "device": "esp32_B",
+  "state": {
+    "e-stop": false,
+    "last_check": {
+      "$date": "2025-11-11T17:51:00.009Z"
+    },
+    "status": "running"
+  }
+},
+{
+  "_id": {
+    "$oid": "690b95c8ce6466587407c680"
+  },
+  "device": "esp32_C",
+  "state": {
+    "e-stop": false,
+    "connected": false,
+    "last_check": ""
+  }
+}]

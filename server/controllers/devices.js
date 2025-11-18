@@ -6,9 +6,10 @@ async function getDevices(req, res) {
   try {
     //first check the result of the validation
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).send({ errors: errors.array() });
 
-    //first we get the devices that each user have 
+    //first we get the devices that each user have
     const { email } = req.query;
     const user = await User.findOne({ email });
 
@@ -16,21 +17,20 @@ async function getDevices(req, res) {
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
-        devices: []
+        message: 'User not found',
+        devices: [],
       });
     }
 
     // find devices owned by user
     const devices = await Device.find({
-      device: { $in: user.devices || [] }
+      device: { $in: user.devices || [] },
     });
-
 
     return res.status(200).json(devices);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json('Internal Server Error');
   }
 }
 
@@ -38,9 +38,8 @@ async function getDevices(req, res) {
 function postDevice(req, res) {
   try {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array() });
-
-
+    if (!errors.isEmpty())
+      return res.status(400).send({ errors: errors.array() });
   } catch (error) {
     console.log(error);
     res.status(500).json('Internal Server Error');
