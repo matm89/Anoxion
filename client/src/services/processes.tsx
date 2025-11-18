@@ -1,25 +1,23 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 const apiUrl = 'http://localhost:3000';
 
-export async function getProcesses () {
+export async function getProcesses() {
   try {
     const response = await fetch(`${apiUrl}/process?user=Miguel`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
     });
     const processes = await response.json();
     // console.log(processes);
     return processes;
-  
   } catch (error) {
     console.log(error);
-    toast.error('🚨 occurs during on getting process',{
-      icon: () => <img src="/icon.png" width={20}/>
+    toast.error('🚨 occurs during on getting process', {
+      icon: () => <img src="/icon.png" width={20} />,
     });
-  
   }
 }
 

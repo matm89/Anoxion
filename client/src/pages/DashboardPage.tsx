@@ -1,43 +1,20 @@
-import { useNavigate } from 'react-router';
-import Dock from '../components/navbar/navbar';
-import { VscArchive, VscAccount } from 'react-icons/vsc';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { getDevices } from '../services/devices';
 import { authStore } from '../context/auth';
 import { toast } from 'react-toastify';
-import { Devices } from '../components/devices/Devices';
 import type { Device } from '../types/device';
 import gsap from 'gsap';
 import { getProcesses } from '../services/processes';
 import type { Process } from '../types/process';
-import { useLiveData } from '../services/mock';
-import { LiveCharts } from '../components/livecharts/Livecharts';
-import { ProcessList } from '../components/processlist/processlist';
+import { ProcessList } from '../components/processlist/ProcessList';
 
-const LiveDashboard = () => {
-  const data = useLiveData();
-  return (
-    <div>
-      <h2 className="text-brand-700">🔴 Live process data</h2>
-      {data.length > 0 && (
-        <>
-          <p>O2: {data.at(-1)?.values?.O2}%</p>
-          <p>Temp: {data.at(-1)?.values?.temp}°C</p>
-          <p>Hum: {data.at(-1)?.values?.hum}%</p>
-        </>
-      )}
-      {data.length > 0 && (
-        <>
-          <LiveCharts processes={data} />
-        </>
-      )}
-    </div>
-  );
-};
+// new components
+import { DashboardHeader } from '../components/dashboard/DashboardHeader';
+import { DeviceList } from '../components/dashboard/DeviceList';
+import { RunningDevicesPanel } from '../components/dashboard/RunningDevicesPanel';
 
 export default function DashboardPage() {
   const email = authStore.getState().email;
-  const navigate = useNavigate();
 
   const [devices, setDevices] = useState<Device[]>([
     {
@@ -57,52 +34,48 @@ export default function DashboardPage() {
 
   //get devices with email
   useEffect(() => {
-    if (!email) return;
-    try {
-      function timeInterval() {
-        const getData = async () => {
-          const data = await getDevices(email);
-          setDevices(data);
-          // console.log(data);
-        };
-        getData().catch((error) => {
-          throw new Error(error);
+    if (!email || typeof email !== 'string') return;
+
+    async function loadDevices() {
+      try {
+        const data = await getDevices(email);
+        if (!Array.isArray(data)) return;
+        setDevices(data);
+      } catch (error) {
+        console.log(error);
+        toast.error('🚨 occurs getting data', {
+          icon: () => <img src="/icon.png" width={20} />,
         });
       }
-      timeInterval();
-      setInterval(timeInterval, 1000);
-    } catch (error) {
-      console.log(error);
-      toast.error('🚨 occurs getting data', {
-        icon: () => <img src="/icon.png" width={20} />,
-      });
     }
+
+    loadDevices();
+    const interval = setInterval(loadDevices, 1000);
+    return () => clearInterval(interval);
   }, [email]);
 
   //get process from service
   useEffect(() => {
-    if (!email) return;
-    try {
-      const getData = async () => {
+    if (!email || typeof email !== 'string') return;
+
+    async function loadProcesses() {
+      try {
         const data = await getProcesses();
         processesList.current = data[0];
         processes.current = data[1];
-      };
-      getData().catch((error) => {
-        throw new Error(error);
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error('🚨 occurs getting process', {
-        icon: () => <img src="/icon.png" width={20} />,
-      });
+      } catch (error) {
+        console.log(error);
+        toast.error('🚨 occurs getting process', {
+          icon: () => <img src="/icon.png" width={20} />,
+        });
+      }
     }
+
+    loadProcesses();
   }, [email]);
 
-  //the effect of the gsap getted direct from the info
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Background gradient animation
       gsap.to('#dashContainer', {
         background: 'linear-gradient(135deg, #e0f2ff, #d0e3ff, #e0f2ff)',
         duration: 10,
@@ -111,14 +84,14 @@ export default function DashboardPage() {
         ease: 'power1.inOut',
       });
 
-      // Hover effect for device cards
-      gsap.utils.toArray<HTMLElement>('.device-card').forEach((el: HTMLElement) => {
+      gsap.utils.toArray<HTMLElement>('.device-card').forEach((el) => {
         const hover = gsap.to(el, {
           scale: 1.05,
           duration: 0.3,
           paused: true,
           ease: 'power1.out',
         });
+
         el.addEventListener('mouseenter', () => hover.play());
         el.addEventListener('mouseleave', () => hover.reverse());
       });
@@ -127,62 +100,26 @@ export default function DashboardPage() {
     return () => ctx.revert();
   }, [devices]);
 
-  //items of the navBar
-  const items = [
-    { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => navigate('/processes') },
-    { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => navigate('/profile') },
-  ];
-
   return (
     <div
       id="dashContainer"
       ref={containerRef}
-      className="min-h-screen w-full flex flex-col items-center justify-start p-6 bg-gradient-to-br from-brand-100 to-brand-300 transition-all">
-      <div id="header container" className="flex flex-col items-center mb-6">
-        <img src="/logo.png" alt="logo" className="w-[30vw] h-[30vh] mb-1 drop-shadow-lg" />
-        <h1 className="text-3xl font-semibold text-brand-700">Devices</h1>
-      </div>
+      className="min-h-screen w-full flex flex-col items-center justify-start px-4 py-6 sm:px-6 bg-gradient-to-br from-brand-100 to-brand-300 dark:from-slate-900 dark:to-slate-950 transition-all overflow-x-hidden pb-28">
+      <div className="w-full max-w-6xl flex flex-col items-center gap-6">
+        <DashboardHeader />
 
-      <div
-        id="DeviceContainer"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl p-2">
-        {devices.map((d, i) => (
-          <div
-            key={i}
-            id="deviceCard"
-            className="device-card m-2 bg-white/80 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl">
-            <Devices device={d} />
-          </div>
-        ))}
-      </div>
-      {/* 🔴 Status grid: show live data for running devices */}
-      {devices.some((d) => d.state.status === 'running') && (
-        <>
-          <h2 className="text-3xl p-4 font-semibold text-brand-700 mb-2">Live Data Stream</h2>
-          <div
-            id="LiveContainer"
-            className="w-full flex flex-row max-w-5xl bg-white/90 backdrop-blur-sm border border-brand-200 shadow-lg rounded-xl mt-8">
-            {devices
-              .filter((d) => d.state.status === 'running')
-              .map((d, i) => (
-                <div key={i} className="p-2 w-full border-t border-gray-200">
-                  <h3 className="font-bold text-brand-600 mb-2">{d.device}</h3>
-                  <LiveDashboard />
-                </div>
-              ))}
-          </div>
-        </>
-      )}
-      {/* process grid*/}
-      <h1 className="text-3xl font-bold text-brand-700 m-4">Process List</h1>
-      <div id="process Container" className="grid grid-cols-1 gap-6 w-full max-w-5xl m-2">
-        <ProcessList processList={processesList.current} processes={processes.current} />
-      </div>
+        <DeviceList devices={devices} />
 
-      <div
-        id="DockContainer"
-        className="fixed bottom-0 left-0 right-0 flex items-center justify-left gap-8 mb-4 p-2">
-        <Dock items={items} panelHeight={68} baseItemSize={50} magnification={50} />
+        <RunningDevicesPanel devices={devices} />
+
+        <div className="w-full flex flex-col items-center mt-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-brand-700 dark:text-brand-400  mb-6">
+            Process List
+          </h1>
+          <div id="process-container" className="w-full">
+            <ProcessList processList={processesList.current} processes={processes.current} />
+          </div>
+        </div>
       </div>
     </div>
   );

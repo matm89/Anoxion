@@ -15,7 +15,6 @@
     "@gsap/react": "^2.1.2",
     "@mui/material": "^7.3.5",
     "@mui/x-charts": "^8.17.0",
-    "@tailwindcss/vite": "^4.1.16",
     "@types/socket.io-client": "^1.4.36",
     "chart.js": "^4.5.1",
     "chartjs-plugin-zoom": "^2.2.0",

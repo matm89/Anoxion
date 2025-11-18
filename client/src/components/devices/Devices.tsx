@@ -68,7 +68,7 @@ export function Devices({ device }: { device: Device }) {
     } else if (status === 'stopped') {
       return result[1];
     } else {
-      return result[3];
+      return result[2];
     }
   }
   return (

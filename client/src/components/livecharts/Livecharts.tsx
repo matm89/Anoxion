@@ -47,7 +47,7 @@ export function LiveCharts({ processes }: Props) {
   // Common chart options made by IA
   const baseOptions: ChartOptions<'line'> = {
     responsive: true,
-    animation: false,
+    animation: { duration: 0 } as const,
     interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: { position: 'top' },
@@ -112,7 +112,7 @@ export function LiveCharts({ processes }: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-6 w-full max-w-5xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">Process details</h1>
+      <h1 className="text-3xl font-bold text-blue-700 text-center mb-4">Process details</h1>
 
       {/* O₂ Chart */}
       <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow p-4">

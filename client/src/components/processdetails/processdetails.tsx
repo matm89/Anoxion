@@ -23,26 +23,29 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  zoomPlugin
+  zoomPlugin,
 );
 
-export const ProcessDetails = memo(function ProcessDetailsComponent({ processes }: { processes: Process[] }) {
-  
+export const ProcessDetails = memo(function ProcessDetailsComponent({
+  processes,
+}: {
+  processes: Process[];
+}) {
   // Format timestamps for x-axis
   const formatedDate = processes.map((p) => format(p.timestamp, "do',' HH':'mm"));
   const oData = processes.map((p) => p.values.O2);
   const hData = processes.map((p) => p.values.hum);
-  
+
   const o2ChartRef = useRef(null);
   const humChartRef = useRef(null);
-  
+
   if (!processes || processes.length === 0) {
     return <div>No process data available</div>;
   }
   // Common chart options
   const baseOptions = {
     responsive: true,
-    animation: false,
+    animation: { duration: 0 } as const,
     interaction: { mode: 'index' as const, intersect: false },
     plugins: {
       legend: { position: 'top' as const },
@@ -106,8 +109,8 @@ export const ProcessDetails = memo(function ProcessDetailsComponent({ processes 
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6 w-full max-w-5xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">
+    <div className="grid grid-cols-1 gap-6 w-full max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold text-blue-700 dark:text-brand-400  text-center mb-4">
         Process details
       </h1>
 
@@ -117,8 +120,7 @@ export const ProcessDetails = memo(function ProcessDetailsComponent({ processes 
           <h2 className="text-xl font-semibold text-blue-700">O₂ Levels</h2>
           <button
             onClick={() => resetZoom(o2ChartRef)}
-            className="px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded"
-          >
+            className="px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded">
             Reset Zoom
           </button>
         </div>
@@ -131,8 +133,7 @@ export const ProcessDetails = memo(function ProcessDetailsComponent({ processes 
           <h2 className="text-xl font-semibold text-green-700">Humidity</h2>
           <button
             onClick={() => resetZoom(humChartRef)}
-            className="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded"
-          >
+            className="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded">
             Reset Zoom
           </button>
         </div>
