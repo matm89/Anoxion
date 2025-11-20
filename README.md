@@ -1,3 +1,5 @@
+<!-- Test -->
+
 <p align="center">
   <img src="https://github.com/matm89/Anoxion/assets/logo.png" alt="Anoxion Logo" width="160"/>
 </p>
@@ -14,25 +16,25 @@
 
 ---
 
-## 🌍 Overview 
+## 🌍 Overview
 
-**Anoxion** is a full-stack web application designed to support the monitoring and control of *anoxia treatment processes* — a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts. 
+**Anoxion** is a full-stack web application designed to support the monitoring and control of _anoxia treatment processes_ — a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts.
 
 It provides real-time data visualization, device management, and automated alerts to ensure a successful and stable environment throughout the treatment process.
-
 
 ---
 
 ## 🚀 Tech Stack
 
 ### 🧩 Frontend
-| Tech | Purpose |
-|------|----------|
-| ⚛️ **React (Vite)** | UI framework |
-| 🎨 **Tailwind CSS + MUI** | Styling and components |
-| 📊 **Chart.js / Recharts / X-Charts** | Data visualization |
-| 🔔 **React Toastify** | Notifications |
-| 🔐 **Auth Context (authStore)** | Authentication state management | Simulated
+
+| Tech                                  | Purpose                         |
+| ------------------------------------- | ------------------------------- | --------- |
+| ⚛️ **React (Vite)**                   | UI framework                    |
+| 🎨 **Tailwind CSS + MUI**             | Styling and components          |
+| 📊 **Chart.js / Recharts / X-Charts** | Data visualization              |
+| 🔔 **React Toastify**                 | Notifications                   |
+| 🔐 **Auth Context (authStore)**       | Authentication state management | Simulated |
 
 <div align="center">
   <img src="docs/fe.png" width="700"/>
@@ -41,13 +43,14 @@ It provides real-time data visualization, device management, and automated alert
 ---
 
 ### ⚙️ Backend
-| Tech | Purpose |
-|------|----------|
-| 🟢 **Node.js + Express** | REST API server |
-| 🍃 **MongoDB + Mongoose** | Data persistence |
-| 🔄 **WebSocket (Socket.io)** | Real-time data updates |
-| 🧱 **JWT Authentication** | Secure access control | TODO 
-| 🧾 **MOCks aplications** | Maded just for demo porpurse 
+
+| Tech                         | Purpose                      |
+| ---------------------------- | ---------------------------- | ---- |
+| 🟢 **Node.js + Express**     | REST API server              |
+| 🍃 **MongoDB + Mongoose**    | Data persistence             |
+| 🔄 **WebSocket (Socket.io)** | Real-time data updates       |
+| 🧱 **JWT Authentication**    | Secure access control        | TODO |
+| 🧾 **MOCks aplications**     | Maded just for demo porpurse |
 
 <div align="center">
   <img src="docs/BE.png" width="700"/>
@@ -67,6 +70,7 @@ It provides real-time data visualization, device management, and automated alert
 ## 🧩 Installation
 
 ### 1️⃣ Clone the repository
+
 ```bash
 git clone https://github.com/matm89/Anoxion.git
 cd Anoxion
@@ -93,6 +97,7 @@ WEBSOCKET_PORT=5001
 
 create the 3 collections and import inside the mock data of each one stored in the server/db_mockdata
 ```
+
 <div align="center">
   <img src="docs/mongoDB.png" width="700"/>
 </div>
@@ -102,14 +107,15 @@ create the 3 collections and import inside the mock data of each one stored in t
 ## 🧭 Features
 
 ```
-✅ Multi-device management          
-✅ Real-time process visualization  
-✅ Data persistence in MongoDB      
-✅ WebSocket live data updates      
-❎ Secure login and authentication  
-✅ Custom alerts for thresholds     
-✅ Responsive and modern UI         
+✅ Multi-device management
+✅ Real-time process visualization
+✅ Data persistence in MongoDB
+✅ WebSocket live data updates
+❎ Secure login and authentication
+✅ Custom alerts for thresholds
+✅ Responsive and modern UI
 ```
+
 ---
 
 ## 🧱 Folder Structure
@@ -135,9 +141,8 @@ Anoxion/
 
 ## 🧰 TODOs & Next Steps
 
-
-| Area             | Task                                  | Status          |
-| --------------   | ------------------------------------- | -------------   |
+| Area             | Task                                  | Status         |
+| ---------------- | ------------------------------------- | -------------- |
 | 🔧 Backend       | Add authentification process          | 🔜 Planned     |
 | ⚙️ Frontend      | Add process windows with reports      | 🔜 Planned     |
 | ⚙️ Frontend      | Add User windows to change user info  | 🔜 Planned     |
@@ -147,3 +152,4 @@ Anoxion/
 | 🧑‍💻 FE,BE & DB    | Change getting process by email       | 🔜 Planned     | 
 
 
+<!-- new addition -->

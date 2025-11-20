@@ -8,27 +8,32 @@ const validateDevice = [
   body('state.e-stop').optional().isBoolean().withMessage('e-stop should be a boolean type'),
 
   body('state.connected').optional().isBoolean().withMessage('connecter should be a boolean type'),
-  
+
   body('state.last_check').optional().custom((value) => {
     if (typeof value !== Date || typeof value !== 'bigint') {
-      throw new Error ('state.last_check should be a number');
+      throw new Error('state.last_check should be a number');
     }
-    if (value < 0) throw new Error ('state.last_check should be bigger than 0');
+    if (value < 0) throw new Error('state.last_check should be bigger than 0');
     return true;
   })
 ];
 
 
 const validateMail = [
-   query('email').isEmail().normalizeEmail()
+  query('email')
+    .exists().withMessage('Email query param is required')
+    .bail()
+    .isEmail().withMessage('Invalid email format')
+    .normalizeEmail()
 ];
+
 
 const validateUser = [
   query('user').trim()
-        .notEmpty()
-        .isString()
-        .isLength({ min: 2 })
-        .withMessage('Username is required and must be at least 2 characters long')
+    .notEmpty()
+    .isString()
+    .isLength({ min: 2 })
+    .withMessage('Username is required and must be at least 2 characters long')
 ];
 
 const validateProcess = [
@@ -57,10 +62,10 @@ const validateProcess = [
   body('iostate.n2_wet').optional().isBoolean().withMessage('iostate.n2_wet must be boolean'),
 
   body('iostate.start').optional().isBoolean().withMessage('iostate.start must be boolean'),
-  
+
   body('iostate.stop').optional().isBoolean().withMessage('iostate.stop must be boolean'),
 
   body('iostate.e-stop').optional().isBoolean().withMessage('iostate.e-stop must be boolean')
 ];
 
-module.exports = {validateDevice, validateUser, validateMail, validateProcess}
+module.exports = { validateDevice, validateUser, validateMail, validateProcess }
