@@ -8,7 +8,7 @@ export function DeviceList({ devices }: { devices: Device[] }) {
         Devices
       </h1>
 
-      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-5xl">
+      <div id="DeviceContainer" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-5xl">
         {devices.map((d, i) => (
           <div
             key={i}

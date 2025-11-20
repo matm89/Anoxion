@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router';
 import { NavigationDock } from '../components/navbar/NavigationDock';
-import { ToastContainer, Bounce } from 'react-toastify';
 
 export function MainLayout() {
   return (
@@ -8,8 +7,6 @@ export function MainLayout() {
       <Outlet />
 
       <NavigationDock />
-
-      <ToastContainer position="top-right" autoClose={5000} transition={Bounce} />
     </div>
   );
 }

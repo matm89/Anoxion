@@ -20,6 +20,7 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [mode]);
+
   return (
     <>
       <BrowserRouter>

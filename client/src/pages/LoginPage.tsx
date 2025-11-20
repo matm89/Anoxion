@@ -43,7 +43,7 @@ export default function LoginPage() {
       </div>
 
       <div className="flex flex-col items-center p-4">
-        <img src="/logo.png" alt="Anoxion Logo" className="w-64 h-auto mb-4 drop-shadow-lg" />
+        <img src="/logo.png" alt="Anoxion Logo" className="w-96 h-auto mb-4 drop-shadow-lg" />
       </div>
 
       <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 border border-brand-200 dark:border-slate-700 transition-colors">
