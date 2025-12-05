@@ -35,7 +35,7 @@ It provides real-time data visualization, device management, and automated alert
 | 🎨 **Tailwind CSS + MUI**             | Styling and components          |
 | 📊 **Chart.js / Recharts / X-Charts** | Data visualization              |
 | 🔔 **React Toastify**                 | Notifications                   |
-| 🔐 **Auth Context (authStore)**       | Authentication state management | Simulated |
+| 🔐 **Auth Context (authStore)**       | Authentication state management |
 
 ```
 ---
@@ -47,7 +47,7 @@ It provides real-time data visualization, device management, and automated alert
 | 🟢 **Node.js + Express**     | REST API server              |
 | 🍃 **MongoDB + Mongoose**    | Data persistence             |
 | 🔄 **WebSocket (Socket.io)** | Real-time data updates       |
-| 🧱 **JWT Authentication**    | Secure access control        | TODO |
+| 🧱 **JWT Authentication**    | Secure access control        |
 | 🧾 **MOCks aplications**     | Maded just for demo porpurse |
 ```
 ---
