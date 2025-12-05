@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Anoxion/public/logo.png" alt="Anoxion Logo" width="160"/>
+  <img src="Anoxion/public/logo1.png" alt="Anoxion Logo" width="160"/>
 </p>
 
 <h1 align="center">🧬 Anoxion – Anoxia Process Companion</h1>
@@ -34,10 +34,6 @@ It provides real-time data visualization, device management, and automated alert
 | 🔔 **React Toastify** | Notifications |
 | 🔐 **Auth Context (authStore)** | Authentication state management | Simulated
 
-<div align="center">
-  <img src="docs/fe.png" width="700"/>
-</div>
-
 ---
 
 ### ⚙️ Backend
@@ -48,10 +44,6 @@ It provides real-time data visualization, device management, and automated alert
 | 🔄 **WebSocket (Socket.io)** | Real-time data updates |
 | 🧱 **JWT Authentication** | Secure access control | TODO 
 | 🧾 **MOCks aplications** | Maded just for demo porpurse 
-
-<div align="center">
-  <img src="docs/BE.png" width="700"/>
-</div>
 
 ---
 
@@ -93,9 +85,6 @@ WEBSOCKET_PORT=5001
 
 create the 3 collections and import inside the mock data of each one stored in the server/db_mockdata
 ```
-<div align="center">
-  <img src="docs/mongoDB.png" width="700"/>
-</div>
 
 ---
 
