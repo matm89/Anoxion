@@ -27,6 +27,7 @@ It provides real-time data visualization, device management, and automated alert
 ## 🚀 Tech Stack
 
 ### 🧩 Frontend
+```
 
 | Tech                                  | Purpose                         |
 | ------------------------------------- | ------------------------------- | --------- |
@@ -36,10 +37,11 @@ It provides real-time data visualization, device management, and automated alert
 | 🔔 **React Toastify**                 | Notifications                   |
 | 🔐 **Auth Context (authStore)**       | Authentication state management | Simulated |
 
+```
 ---
 
 ### ⚙️ Backend
-
+```
 | Tech                         | Purpose                      |
 | ---------------------------- | ---------------------------- | ---- |
 | 🟢 **Node.js + Express**     | REST API server              |
@@ -47,7 +49,7 @@ It provides real-time data visualization, device management, and automated alert
 | 🔄 **WebSocket (Socket.io)** | Real-time data updates       |
 | 🧱 **JWT Authentication**    | Secure access control        | TODO |
 | 🧾 **MOCks aplications**     | Maded just for demo porpurse |
-
+```
 ---
 
 ## ⚗️ How It Works
