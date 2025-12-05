@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/matm89/Anoxion/assets/logo.png" alt="Anoxion Logo" width="160"/>
+  <img src="Anoxion/public/logo.png" alt="Anoxion Logo" width="160"/>
 </p>
 
 <h1 align="center">🧬 Anoxion – Anoxia Process Companion</h1>
