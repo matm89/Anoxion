@@ -16,7 +16,7 @@
 
 ## 🌍 Overview 
 
-**Anoxion** is a full-stack web application designed to support the monitoring and control of *anoxia treatment processes* — a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts. 
+**Anoxion** is a full-stack web application designed to support the monitoring and control of *anoxia treatment processes* a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts. 
 
 It provides real-time data visualization, device management, and automated alerts to ensure a successful and stable environment throughout the treatment process.
 
