@@ -1,7 +1,7 @@
 <!-- Test -->
 
 <p align="center">
-  <img src="https://github.com/matm89/Anoxion/assets/logo.png" alt="Anoxion Logo" width="160"/>
+  <img src="Anoxion/public/logo1.png" alt="Anoxion Logo" width="160"/>
 </p>
 
 <h1 align="center">🧬 Anoxion – Anoxia Process Companion</h1>
@@ -18,7 +18,7 @@
 
 ## 🌍 Overview
 
-**Anoxion** is a full-stack web application designed to support the monitoring and control of _anoxia treatment processes_ — a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts.
+**Anoxion** is a full-stack web application designed to support the monitoring and control of *anoxia treatment processes* a method that removes oxygen from sealed chambers to treat art, food, or wooden artifacts. 
 
 It provides real-time data visualization, device management, and automated alerts to ensure a successful and stable environment throughout the treatment process.
 
@@ -36,10 +36,6 @@ It provides real-time data visualization, device management, and automated alert
 | 🔔 **React Toastify**                 | Notifications                   |
 | 🔐 **Auth Context (authStore)**       | Authentication state management | Simulated |
 
-<div align="center">
-  <img src="docs/fe.png" width="700"/>
-</div>
-
 ---
 
 ### ⚙️ Backend
@@ -51,10 +47,6 @@ It provides real-time data visualization, device management, and automated alert
 | 🔄 **WebSocket (Socket.io)** | Real-time data updates       |
 | 🧱 **JWT Authentication**    | Secure access control        | TODO |
 | 🧾 **MOCks aplications**     | Maded just for demo porpurse |
-
-<div align="center">
-  <img src="docs/BE.png" width="700"/>
-</div>
 
 ---
 
@@ -97,10 +89,6 @@ WEBSOCKET_PORT=5001
 
 create the 3 collections and import inside the mock data of each one stored in the server/db_mockdata
 ```
-
-<div align="center">
-  <img src="docs/mongoDB.png" width="700"/>
-</div>
 
 ---
 
